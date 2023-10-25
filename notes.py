@@ -1,5 +1,5 @@
-from commands import Commands
+from configuration import CommandsConfig
 
 
-class Notes(Commands):
+class Notes(CommandsConfig):
     pass

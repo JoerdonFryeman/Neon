@@ -1,5 +1,5 @@
-from commands import Commands
+from configuration import CommandsConfig
 
 
-class Settings(Commands):
+class Settings(CommandsConfig):
     pass

@@ -1,5 +1,2 @@
-from configuration import SystemConfig
-
-
-class Matrix(SystemConfig):
+class Matrix:
     pass

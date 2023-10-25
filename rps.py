@@ -1,5 +1,5 @@
-from commands import Commands
+from configuration import CommandsConfig
 
 
-class RPS(Commands):
+class RPS(CommandsConfig):
     pass

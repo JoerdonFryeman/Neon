@@ -1,5 +1,5 @@
-from commands import Commands
+from configuration import CommandsConfig
 
 
-class ClockWork(Commands):
+class ClockWork(CommandsConfig):
     pass

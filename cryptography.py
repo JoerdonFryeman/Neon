@@ -1,6 +1,2 @@
-class PyKepLib:
-    pass
-
-
-class Enigma(PyKepLib):
+class Enigma:
     pass

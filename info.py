@@ -1,5 +1,5 @@
-from commands import Commands
+from configuration import CommandsConfig
 
 
-class Info(Commands):
+class Info(CommandsConfig):
     pass

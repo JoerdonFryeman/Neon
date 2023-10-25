@@ -1,8 +1,8 @@
-from commands import Commands
+from configuration import CommandsConfig
 from authentication import Authentication
 
-cmd = Commands()
-aut = Authentication()
+cmd_cfg = CommandsConfig()
+aut_ion = Authentication()
 
 
 def main():

@@ -1,5 +1,5 @@
-from commands import Commands
+from configuration import CommandsConfig
 
 
-class Neo(Commands):
+class Neo(CommandsConfig):
     pass

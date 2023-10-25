@@ -1,7 +1,7 @@
-from commands import Commands
+from configuration import CommandsConfig
 
 
-class Weather(Commands):
+class Weather(CommandsConfig):
     pass
 
 

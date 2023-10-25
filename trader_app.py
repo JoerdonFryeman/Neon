@@ -1,11 +1,11 @@
-from commands import Commands
+from configuration import CommandsConfig
 
 
 class Descriptor:
     pass
 
 
-class Configuration(Commands):
+class Configuration(CommandsConfig):
     pass
 
 
