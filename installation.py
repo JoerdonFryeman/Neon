@@ -1,10 +1,5 @@
-class Variables:
-    pass
+from pykeplib import Enigma
 
 
-class Data(Variables):
-    pass
-
-
-class Installation(Data):
+class Installation(Enigma):
     pass

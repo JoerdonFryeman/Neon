@@ -1,0 +1,16 @@
+Bext==0.0.8
+certifi==2023.7.22
+charset-normalizer==3.3.1
+colorama==0.4.6
+geojson==2.5.0
+idna==3.4
+keyboard==0.13.5
+markdown-it-py==3.0.0
+mdurl==0.1.2
+psutil==5.9.6
+Pygments==2.16.1
+pyowm==3.3.0
+PySocks==1.7.1
+requests==2.31.0
+rich==13.6.0
+urllib3==2.0.7
