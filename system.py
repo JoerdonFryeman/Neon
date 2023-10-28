@@ -1,7 +1,7 @@
 from colorama import Fore
-from bext import goto, hide
 from ast import literal_eval
 from rich.console import Console
+from bext import goto, hide, title
 from keyboard import press_and_release, release, press
 from pykeplib import Enigma, Visual
 from data_base import DataBase
@@ -69,6 +69,7 @@ class System(Files):
         return value
 
     def get_screen_mode(self):
+        title(str(f'{self.change_language(self.tui_neon_shell_ru, self.tui_neon_shell_eng)}{self.ver}'))
         if self.width == 120 and self.height == 30:
             pass
         else:

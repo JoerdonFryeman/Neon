@@ -1,9 +1,12 @@
 from bext import goto
+from pyowm import OWM
 from time import sleep
+from calendar import month
 from random import randint
 from datetime import datetime
 from os import system as sys
 from threading import Thread
+from ast import literal_eval
 from psutil import sensors_battery
 from keyboard import press_and_release
 from platform import system, machine, version, release as os_release
@@ -12,6 +15,15 @@ from system import System
 
 
 class Widgets(System, Matrix):
+    def __init__(self):
+        super().__init__()
+        self.owm = OWM(self.get_user_data(self._weather_key))
+        self._city = (self.get_user_data(self._city))
+        self.temp = self.owm.weather_manager().weather_at_place(self._city).weather.temperature('celsius')
+        self.mgr = self.owm.weather_manager()
+        self.observation = self.mgr.weather_at_place(self._city)
+        self.w = self.observation.weather
+
     def get_vertical_bar(self, wdt_wind, count_hgt_wind, wdt_full, count_hgt_full):
         global counter
 
@@ -171,6 +183,142 @@ class Widgets(System, Matrix):
         self.get_coordinates(1, 2, 1, 2)
         self.color.print(f'{self.third_color}└{(int(self.width // value)) * "─"}┘')
 
+    def get_weather_view(self):
+        self.get_coordinates(2, 3, 2, int(self.height // 4.23))
+        self.color.print(
+            f'{self.first_color}{self.change_language("Температура ", "Temperature ")}'
+            f'{self.change_language("в городе ", "in ")}'
+            f'{self._city}: {self.second_color}{self.temp["temp"]}{self.first_color}'
+            f'{self.change_language(" градусов по Цельсию", " degrees Celsius")}'
+        )
+        self.get_coordinates(2, 4, 2, int(self.height // 4.13))
+        self.color.print(
+            f'{self.first_color}{self.change_language("Макс.: ", "Max.: ")}'
+            f'{self.second_color}{self.temp["temp_max"]}°{self.first_color}'
+            f'{self.change_language(", мин.: ", ", min.: ")}{self.second_color}'
+            f'{self.temp["temp_min"]}°{self.first_color}'
+            f'{self.change_language(", чувствуется как: ", ", feels like: ")}'
+            f'{self.second_color}{self.temp["feels_like"]}°'
+        )
+        self.get_coordinates(
+            2, 5, 2, int(self.height // self.get_symbol_resolution(4.04, 4.07))
+        )
+        self.color.print(
+            f'{self.first_color}{self.change_language("Сила ветра: ", "Wind speed: ")}'
+            f'{self.second_color}{self.w.wind()["speed"]}{self.first_color}'
+            f'{self.change_language(" м/с, влажность: ", "m/s, humidity:")}'
+            f'{self.second_color}{self.w.humidity}%'
+        )
+
+    def get_detailed_status(self):
+        if self.get_user_data(self._language) == 'russian' or self.get_user_data(self._language) == 'русский':
+            if self.w.detailed_status == str('clear sky'):
+                self.w.detailed_status = str('ясно')
+            if self.w.detailed_status == str('few clouds'):
+                self.w.detailed_status = str('облачно')
+            if self.w.detailed_status == str('overcast clouds'):
+                self.w.detailed_status = str('пасмурно')  # полотемнота, сделана облаком
+            if self.w.detailed_status == str('heavy intensity shower rain'):
+                self.w.detailed_status = str('проливной дождь')
+            if self.w.detailed_status == str('broken clouds'):
+                self.w.detailed_status = str('облачно с прояснениями')
+            if self.w.detailed_status == str('light rain'):
+                self.w.detailed_status = str('лёгкий дождь')
+            if self.w.detailed_status == str('scattered clouds'):
+                self.w.detailed_status = str('кучевые облака')
+            if self.w.detailed_status == str('light intensity shower rain'):
+                self.w.detailed_status = str('лёгкий, но интенсивный дождь')
+            if self.w.detailed_status == str('light intensity drizzle rain'):
+                self.w.detailed_status = str('лёгкий, но интенсивный моросящий дождь')
+            if self.w.detailed_status == str('light intensity drizzle'):
+                self.w.detailed_status = str('моросящий дождь')
+            if self.w.detailed_status == str('moderate rain'):
+                self.w.detailed_status = str('небольшой дождь')
+            if self.w.detailed_status == str('mist') or self.w.detailed_status == str('fog'):
+                self.w.detailed_status = str('туман')
+            if self.w.rain == 'rain':
+                self.w.rain = ', дождь'
+        else:
+            f'{self.w.detailed_status}'
+
+    def get_detailed_weather(self, grad_first, grad_second, status):
+        self.get_detailed_status()
+        self.get_coordinates(
+            2, 6, 2, int(self.height // self.get_symbol_resolution(4.04, 4.01))
+        )
+        if int(grad_first) <= self.temp['feels_like'] <= int(grad_second):
+            self.color.print(f"{self.first_color}{status}, {self.w.detailed_status}")
+
+    def get_weather(self):
+        try:
+            self.get_weather_view()
+            self.get_detailed_weather(-60, -51, self.change_language(
+                "На улице холод опасный для жизни", "It's life-threatening cold outside")
+                                      )
+            self.get_detailed_weather(-50, -41, self.change_language(
+                "На улице трескучие морозы", "It's bitter cold outside")
+                                      )
+            self.get_detailed_weather(-40, -31, self.change_language(
+                "На улице жуткий дубак", "It's terribly cold outside")
+                                      )
+            self.get_detailed_weather(-30, -21, self.change_language(
+                "На улице сильный мороз", "Сold frost outside")
+                                      )
+            self.get_detailed_weather(-20, -11, self.change_language(
+                "На улице мороз", "Frost outside")
+                                      )
+            self.get_detailed_weather(-10, -1, self.change_language(
+                "На улице заморозки", "It's cold outside")
+                                      )
+            self.get_detailed_weather(0, 10, self.change_language(
+                "На улице прохладно", "It's lukewarm outside")
+                                      )
+            self.get_detailed_weather(11, 20, self.change_language(
+                "На улице тепло", "It's warm outside")
+                                      )
+            self.get_detailed_weather(21, 30, self.change_language(
+                "На улице очень тепло", "It's very warm outside")
+                                      )
+            self.get_detailed_weather(31, 40, self.change_language(
+                "На улице жарко", "It's pretty hot outside")
+                                      )
+            self.get_detailed_weather(41, 50, self.change_language(
+                "На улице очень жарко", "It's very hot outside")
+                                      )
+            self.get_detailed_weather(51, 60, self.change_language(
+                "На улице жуткая жарища", "It's terribly hot outside")
+                                      )
+        except:
+            self.get_coordinates(
+                2, 5, 2, int(self.height // self.get_symbol_resolution(4.04, 4.07))
+            )
+            self.color.print(
+                self.first_color + self.change_language(
+                    "Что-то пошло не так...", "Something's gone wrong..."
+                )
+            )
+
+    @staticmethod
+    def get_wallpaper(fc, sc):
+        raccoon_wallpaper = (
+            f'{fc}░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░'
+            f'{fc}░░░░░░░░░░░░░░░░▄{sc}▄▄█▄██▄▄{fc}░░░░░░░░░░░░░░░░░░'
+            f'{fc}░░░▄█▀███▄▄█████{sc}███████████████▄▄███▀█{fc}░░░░░'
+            f'{fc}░░░░█{sc}░░{fc}▀█████{sc}██████████████████████{fc}█{sc}░░█{fc}░░░░'
+            f'{fc}░░░░░█▄{sc}░░{fc}▀█████{sc}████████{fc}███{sc}███████{fc}█{sc}░░░▄▀{fc}░░░░'
+            f'{fc}░░░░░░▀█▄▄████▀▀▀{sc}░░░░█{fc}█{sc}░░░{fc}▀▀▀{sc}█████▄▄█▀{fc}░░░░░'
+            f'{fc}░░░░░░▄███▀▀{sc}░░░░░░░░░█{fc}█{sc}░░░░░░░░░▀███▄{fc}░░░░░░'
+            f'{fc}░░░░░▄██▀{sc}░░░░░▄▄▄██▄▄██░▄██▄▄▄░░░░░▀██▄{fc}░░░░'
+            f'{fc}░░░▄██▀{sc}░░░▄▄▄███ ▄█████████ ▄██▄▄▄{sc}░░░▀█▄{fc}░░░'
+            f'{fc}░░░▀██▄▄████{sc}██████▀░███▀▀▀█████████▄▄▄█▀{fc}░░░'
+            f'{fc}░░░░░▀█████████{sc}█▀░░░█{fc}█{sc}█░░░▀███████████▀{fc}░░░░'
+            f'{fc}░░░░░░░▀▀▀██████{sc}░░░{fc}██{sc}███▄░░▀██████▀▀{fc}░░░░░░░'
+            f'{fc}░░░░░░░░░░░░▀▀▀▀▄{sc}░░█{fc}██{sc}██▀░▄█▀▀▀{fc}░░░░░░░░░░░░'
+            f'{fc}░░░░░░░░░░░░░░░░░▀▀▄▄▄▄▄▀▀{fc}░░░░░░░░░░░░░░░░░'
+            f'{fc}░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░'
+        )
+        return raccoon_wallpaper
+
     def get_battery(self):
         self.get_coordinates(
             2, 24, int(self.width // self.width + 1), int(self.height - self.height // 4.27)
@@ -192,3 +340,7 @@ class Widgets(System, Matrix):
             self.color.print(self.first_color + self.get_loading_points(download_text, count))
             count += 1
             sleep(0.3)
+
+    @staticmethod
+    def get_month_calendar():
+        return f'{month(int(f"{datetime.now():%Y}"), int(f"{datetime.now():%m}"), 3, 2)}'
