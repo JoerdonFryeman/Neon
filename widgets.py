@@ -6,7 +6,6 @@ from random import randint
 from datetime import datetime
 from os import system as sys
 from threading import Thread
-from ast import literal_eval
 from psutil import sensors_battery
 from keyboard import press_and_release
 from platform import system, machine, version, release as os_release
@@ -298,26 +297,37 @@ class Widgets(System, Matrix):
                 )
             )
 
-    @staticmethod
-    def get_wallpaper(fc, sc):
-        raccoon_wallpaper = (
-            f'{fc}░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░'
-            f'{fc}░░░░░░░░░░░░░░░░▄{sc}▄▄█▄██▄▄{fc}░░░░░░░░░░░░░░░░░░'
-            f'{fc}░░░▄█▀███▄▄█████{sc}███████████████▄▄███▀█{fc}░░░░░'
-            f'{fc}░░░░█{sc}░░{fc}▀█████{sc}██████████████████████{fc}█{sc}░░█{fc}░░░░'
-            f'{fc}░░░░░█▄{sc}░░{fc}▀█████{sc}████████{fc}███{sc}███████{fc}█{sc}░░░▄▀{fc}░░░░'
-            f'{fc}░░░░░░▀█▄▄████▀▀▀{sc}░░░░█{fc}█{sc}░░░{fc}▀▀▀{sc}█████▄▄█▀{fc}░░░░░'
-            f'{fc}░░░░░░▄███▀▀{sc}░░░░░░░░░█{fc}█{sc}░░░░░░░░░▀███▄{fc}░░░░░░'
-            f'{fc}░░░░░▄██▀{sc}░░░░░▄▄▄██▄▄██░▄██▄▄▄░░░░░▀██▄{fc}░░░░'
-            f'{fc}░░░▄██▀{sc}░░░▄▄▄███ ▄█████████ ▄██▄▄▄{sc}░░░▀█▄{fc}░░░'
-            f'{fc}░░░▀██▄▄████{sc}██████▀░███▀▀▀█████████▄▄▄█▀{fc}░░░'
-            f'{fc}░░░░░▀█████████{sc}█▀░░░█{fc}█{sc}█░░░▀███████████▀{fc}░░░░'
-            f'{fc}░░░░░░░▀▀▀██████{sc}░░░{fc}██{sc}███▄░░▀██████▀▀{fc}░░░░░░░'
-            f'{fc}░░░░░░░░░░░░▀▀▀▀▄{sc}░░█{fc}██{sc}██▀░▄█▀▀▀{fc}░░░░░░░░░░░░'
-            f'{fc}░░░░░░░░░░░░░░░░░▀▀▄▄▄▄▄▀▀{fc}░░░░░░░░░░░░░░░░░'
-            f'{fc}░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░'
-        )
-        return raccoon_wallpaper
+    def get_wallpaper(self, fc, sc):
+        self.get_coordinates(self.width // 2, self.middle_height - 7, self.width // 2, self.middle_height - 6)
+        self.color.print(f'{fc}░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░')
+        self.get_coordinates(self.width // 2, self.middle_height - 6, self.width // 2, self.middle_height - 5)
+        self.color.print(f'{fc}░░░░░░░░░░░░░░░░▄{sc}▄▄█▄██▄▄{fc}░░░░░░░░░░░░░░░░░░')
+        self.get_coordinates(self.width // 2, self.middle_height - 5, self.width // 2, self.middle_height - 4)
+        self.color.print(f'{fc}░░░▄█▀███▄▄█████{sc}███████████████▄▄███▀█{fc}░░░░░')
+        self.get_coordinates(self.width // 2, self.middle_height - 4, self.width // 2, self.middle_height - 3)
+        self.color.print(f'{fc}░░░░█{sc}░░{fc}▀█████{sc}██████████████████████{fc}█{sc}░░█{fc}░░░░')
+        self.get_coordinates(self.width // 2, self.middle_height - 3, self.width // 2, self.middle_height - 2)
+        self.color.print(f'{fc}░░░░░█▄{sc}░░{fc}▀█████{sc}████████{fc}███{sc}███████{fc}█{sc}░░░▄▀{fc}░░░░')
+        self.get_coordinates(self.width // 2, self.middle_height - 2, self.width // 2, self.middle_height - 1)
+        self.color.print(f'{fc}░░░░░░▀█▄▄████▀▀▀{sc}░░░░█{fc}█{sc}░░░{fc}▀▀▀{sc}█████▄▄█▀{fc}░░░░░')
+        self.get_coordinates(self.width // 2, self.middle_height - 1, self.width // 2, self.middle_height)
+        self.color.print(f'{fc}░░░░░░▄███▀▀{sc}░░░░░░░░░█{fc}█{sc}░░░░░░░░░▀███▄{fc}░░░░░░')
+        self.get_coordinates(self.width // 2, self.middle_height, self.width // 2, self.middle_height + 1)
+        self.color.print(f'{fc}░░░░░▄██▀{sc}░░░░░▄▄▄██▄▄██░▄██▄▄▄░░░░░▀██▄{fc}░░░░')
+        self.get_coordinates(self.width // 2, self.middle_height + 1, self.width // 2, self.middle_height + 2)
+        self.color.print(f'{fc}░░░▄██▀{sc}░░░▄▄▄███ ▄█████████ ▄██▄▄▄{sc}░░░▀█▄{fc}░░░')
+        self.get_coordinates(self.width // 2, self.middle_height + 2, self.width // 2, self.middle_height + 3)
+        self.color.print(f'{fc}░░░▀██▄▄████{sc}██████▀░███▀▀▀█████████▄▄▄█▀{fc}░░░')
+        self.get_coordinates(self.width // 2, self.middle_height + 3, self.width // 2, self.middle_height + 4)
+        self.color.print(f'{fc}░░░░░▀█████████{sc}█▀░░░█{fc}█{sc}█░░░▀███████████▀{fc}░░░░')
+        self.get_coordinates(self.width // 2, self.middle_height + 4, self.width // 2, self.middle_height + 5)
+        self.color.print(f'{fc}░░░░░░░▀▀▀██████{sc}░░░{fc}██{sc}███▄░░▀██████▀▀{fc}░░░░░░░')
+        self.get_coordinates(self.width // 2, self.middle_height + 5, self.width // 2, self.middle_height + 6)
+        self.color.print(f'{fc}░░░░░░░░░░░░▀▀▀▀▄{sc}░░█{fc}██{sc}██▀░▄█▀▀▀{fc}░░░░░░░░░░░░')
+        self.get_coordinates(self.width // 2, self.middle_height + 6, self.width // 2, self.middle_height + 7)
+        self.color.print(f'{fc}░░░░░░░░░░░░░░░░░▀▀▄▄▄▄▄▀▀{fc}░░░░░░░░░░░░░░░░░')
+        self.get_coordinates(self.width // 2, self.middle_height + 7, self.width // 2, self.middle_height + 8)
+        self.color.print(f'{fc}░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░')
 
     def get_battery(self):
         self.get_coordinates(
