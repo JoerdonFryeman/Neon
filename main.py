@@ -13,10 +13,21 @@ from apps.weather import WeatherNow
 from apps.calendarium import Calendarium
 from authentication import Authentication
 
+wdg = Widgets()
+atc = Authentication()
+
+
+def get_home_screen():
+    while True:
+        pass
+
 
 def main():
     """Entry point"""
-    pass
+    try:
+        pass
+    except (FileNotFoundError, BextException):
+        pass
 
 
 if __name__ == '__main__':
