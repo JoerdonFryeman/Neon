@@ -19,7 +19,7 @@ class Authentication(Widgets):
             )
             login = getpass('')
             if login != '':
-                if login == self.get_user_data(self._login):
+                if login == self.get_user_data(self.login):
                     sys(self.get_system_command())
                     self.get_message_handler(
                         "Введите пароль (ввод не отображается)",
@@ -27,11 +27,11 @@ class Authentication(Widgets):
                     )
                     password = getpass('')
                     if password != '':
-                        if password == self.get_user_data(self._password):
+                        if password == self.get_user_data(self.password):
                             sys(self.get_system_command())
                             self.get_message_handler(
-                                f"Добро пожаловать, {self.get_user_data(self._name)}!",
-                                f"Welcome, {self.get_user_data(self._name)}!"
+                                f"Добро пожаловать, {self.get_user_data(self.name)}!",
+                                f"Welcome, {self.get_user_data(self.name)}!"
                             ), sleep(2)
                             break
                         else:

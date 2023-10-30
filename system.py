@@ -3,27 +3,52 @@ from ast import literal_eval
 from rich.console import Console
 from bext import goto, hide, title
 from keyboard import press_and_release, release, press
-from pykeplib import Enigma, Visual
 from data_base import DataBase
+from pykeplib import Enigma, Visual
+
+
+class Descriptor:
+    def __init__(self):
+        pass
+
+    def __set_name__(self, owner, name) -> None:
+        self.name = f"_{name}"
+
+    def __get__(self, instance, owner) -> int:
+        return getattr(instance, self.name)
 
 
 class Files(DataBase, Enigma, Visual):
+    name = Descriptor()
+    city = Descriptor()
+    login = Descriptor()
+    password = Descriptor()
+    weather_key = Descriptor()
+    language = Descriptor()
+    resolution = Descriptor()
+    color = Descriptor()
+    transparency = Descriptor()
+
     __slots__ = (
         'ver', '_name', '_city', '_login', '_password', '_weather_key', '_language', '_resolution',
         '_color', '_transparency', 'get_hide', 'get_green', 'user_data', 'tui_neon_shell_ru', 'tui_neon_shell_eng'
     )
 
-    def __init__(self):
+    def __init__(
+            self, name=0, city=1, login=2,
+            password=3, weather_key=4, language=5,
+            resolution=6, color=7, transparency=8
+    ):
         self.ver = 1.0
-        self._name = 0
-        self._city = 1
-        self._login = 2
-        self._password = 3
-        self._weather_key = 4
-        self._language = 5
-        self._resolution = 6
-        self._color = 7
-        self._transparency = 8
+        self._name = name
+        self._city = city
+        self._login = login
+        self._password = password
+        self._weather_key = weather_key
+        self._language = language
+        self._resolution = resolution
+        self._color = color
+        self._transparency = transparency
         self.get_hide = hide()
         self.get_green = Fore.GREEN
         self.user_data = self.get_value_list()
@@ -39,19 +64,19 @@ class Files(DataBase, Enigma, Visual):
 
 class System(Files):
     sf = Files()
-    color = Console()
+    console_color = Console()
 
-    width = int(sf.get_resolution_and_color(sf._resolution)[0])
-    height = int(sf.get_resolution_and_color(sf._resolution)[1])
+    width = int(sf.get_resolution_and_color(sf.resolution)[0])
+    height = int(sf.get_resolution_and_color(sf.resolution)[1])
 
-    middle_width = int(width // 5)
-    middle_height = int(height // 2)
-    under_height = 2
-    under_width = int(height - 2)
+    _middle_width = int(width // 5)
+    _middle_height = int(height // 2)
+    _under_height = int(2)
+    _under_width = int(height - 2)
 
-    first_color = sf.get_resolution_and_color(sf._color)[0]
-    second_color = sf.get_resolution_and_color(sf._color)[1]
-    third_color = sf.get_resolution_and_color(sf._color)[2]
+    first_color = sf.get_resolution_and_color(sf.color)[0]
+    second_color = sf.get_resolution_and_color(sf.color)[1]
+    third_color = sf.get_resolution_and_color(sf.color)[2]
 
     def get_coordinates(self, wdt_wind, hgt_wind, wdt_full, hgt_full):
         if self.width == 120 and self.height == 30:
@@ -82,7 +107,7 @@ class System(Files):
 
     def verify_transparency(self):
         press('ctrl+shift')
-        number = self.user_data[self._transparency]
+        number = self.user_data[self.transparency]
         if number == 1:
             self.press_symbol(1)
         if number == 2:
@@ -98,22 +123,22 @@ class System(Files):
         release('ctrl+shift')
 
     def change_language(self, language_one, language_two):
-        if self.get_user_data(self._language) == 'russian' or self.get_user_data(self._language) == 'русский':
+        if self.get_user_data(self.language) == 'russian' or self.get_user_data(self.language) == 'русский':
             return language_one
-        elif self.get_user_data(self._language) == 'english' or self.get_user_data(self._language) == 'английский':
+        elif self.get_user_data(self.language) == 'english' or self.get_user_data(self.language) == 'английский':
             return language_two
         else:
             return language_two
 
     def get_enter_action(self, language_one, language_two):
-        self.get_coordinates(self.under_height, self.under_width, self.under_height, self.under_width + 1)
-        if self.get_user_data(self._language) == 'russian' or self.get_user_data(self._language) == 'русский':
-            return self.color.input(self.first_color + language_one)
-        elif self.get_user_data(self._language) == 'english' or self.get_user_data(self._language) == 'английский':
-            return self.color.input(self.first_color + language_two)
+        self.get_coordinates(self._under_height, self._under_width, self._under_height, self._under_width + 1)
+        if self.get_user_data(self.language) == 'russian' or self.get_user_data(self.language) == 'русский':
+            return self.console_color.input(self.first_color + language_one)
+        elif self.get_user_data(self.language) == 'english' or self.get_user_data(self.language) == 'английский':
+            return self.console_color.input(self.first_color + language_two)
         else:
-            return self.color.input(self.first_color + language_two)
+            return self.console_color.input(self.first_color + language_two)
 
     def get_message_handler(self, language_one, language_two):
-        self.get_coordinates(self.middle_width, self.middle_height, self.middle_width, self.middle_height)
-        self.color.print(self.first_color + self.change_language(language_one, language_two))
+        self.get_coordinates(self._middle_width, self._middle_height, self._middle_width, self._middle_height)
+        self.console_color.print(self.first_color + self.change_language(language_one, language_two))

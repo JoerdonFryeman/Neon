@@ -76,15 +76,13 @@ def get_home_screen():
 
 def main():
     """Entry point"""
-    try:
-        wd.get_screen_mode()
-        wd.verify_transparency()
-        wd.get_start_screen()
-        aut.get_authentication()
-        get_home_screen()
-    except:
-        sys(wd.get_system_command())
-        wd.get_message_handler("Что-то пошло не так...", "Something's gone wrong...")
+    wd.get_screen_mode()
+    wd.verify_transparency()
+    wd.get_start_screen()
+    aut.get_authentication()
+    get_home_screen()
+    sys(wd.get_system_command())
+    wd.get_message_handler("Что-то пошло не так...", "Something's gone wrong...")
 
 
 if __name__ == '__main__':
