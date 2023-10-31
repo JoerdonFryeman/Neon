@@ -10,9 +10,11 @@ from apps.notes import Notes
 from apps.images import Images
 from apps.clock import ClockWork
 
+at = Authentication()
 wd = Widgets()
-img = Images()
-aut = Authentication()
+im = Images()
+cl = ClockWork()
+mx = Matrix()
 
 
 def get_programs_commands():
@@ -42,15 +44,15 @@ def get_main_commands():
         get_programs_commands()
     elif cmd.lower() == 'матрица' or cmd.lower() == 'matrix' or cmd.lower() == 'м' or cmd.lower() == 'm':
         sys(wd.get_system_command())
-        Thread(target=Matrix().run_function).start()
-        Matrix().get_matrix_move(-1, wd.height - 1, float(f'{0.0}{randint(6, 9)}'))
-        Thread(target=Matrix().break_function).start()
+        Thread(target=mx.run_function).start()
+        mx.get_matrix_move(-1, wd.height - 1, float(f'{0.0}{randint(6, 9)}'))
+        Thread(target=mx.break_function).start()
         input()
     elif cmd.lower() == 'время' or cmd.lower() == 'в' or cmd.lower() == 'time' or cmd.lower() == 't':
         sys(wd.get_system_command())
-        Thread(target=ClockWork().run_function).start()
-        Thread(target=ClockWork().command_time).start()
-        Thread(target=ClockWork().break_function).start()
+        Thread(target=cl.run_function).start()
+        Thread(target=cl.command_time).start()
+        Thread(target=cl.break_function).start()
         input()
         sleep(0.3)
     elif cmd == '':
@@ -69,7 +71,7 @@ def get_home_screen():
         wd.get_weather()
         wd.get_coordinates(0, 8, 0, int(wd.height // 2.47))
         print(f'{wd.get_green}{wd.get_month_calendar()}')
-        img.get_wallpaper(wd.first_color, wd.second_color)
+        im.get_wallpaper(wd.first_color, wd.second_color)
         wd.get_battery()
         get_main_commands()
 
@@ -79,7 +81,7 @@ def main():
     wd.get_screen_mode()
     wd.verify_transparency()
     wd.get_start_screen()
-    aut.get_authentication()
+    at.get_authentication()
     get_home_screen()
     sys(wd.get_system_command())
     wd.get_message_handler("Что-то пошло не так...", "Something's gone wrong...")

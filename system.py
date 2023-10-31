@@ -23,29 +23,28 @@ class Files(DataBase, Enigma, Visual):
     city = Descriptor()
     login = Descriptor()
     password = Descriptor()
-    weather_key = Descriptor()
     language = Descriptor()
+    weather_key = Descriptor()
     resolution = Descriptor()
     color = Descriptor()
     transparency = Descriptor()
 
     __slots__ = (
-        'ver', '_name', '_city', '_login', '_password', '_weather_key', '_language', '_resolution',
-        '_color', '_transparency', 'get_hide', 'get_green', 'user_data', 'tui_neon_shell_ru', 'tui_neon_shell_eng'
+        'ver', '_name', '_city', '_login', '_password', '_language', '_weather_key', '_resolution', '_color',
+        '_transparency', 'get_hide', 'get_green', 'user_data', 'tui_neon_shell_ru', 'tui_neon_shell_eng'
     )
 
     def __init__(
-            self, name=0, city=1, login=2,
-            password=3, weather_key=4, language=5,
-            resolution=6, color=7, transparency=8
+            self, name=0, city=1, login=2, password=3, language=4,
+            weather_key=5, resolution=6, color=7, transparency=8
     ):
         self.ver = 1.0
         self._name = name
         self._city = city
         self._login = login
         self._password = password
-        self._weather_key = weather_key
         self._language = language
+        self._weather_key = weather_key
         self._resolution = resolution
         self._color = color
         self._transparency = transparency
