@@ -1,8 +1,8 @@
 import sqlite3 as sq
-from installation import Installation
+from installation import InstallData
 
 
-class DataBase(Installation):
+class DataBase(InstallData):
     def add_db_value(self) -> None:
         with sq.connect('system_data.db') as db:
             cur = db.cursor()
