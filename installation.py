@@ -1,14 +1,14 @@
 from time import sleep
 from colorama import Fore
 from getpass import getpass
-# from bext import goto, hide
+from bext import goto, hide
 from os import system as sys
 from rich.console import Console
 from pykeplib import Enigma
 
 
 class Installation(Enigma):
-    # hide()
+    hide()
     __install_width = 24
     __install_height_first = 14
     __install_height_second = 15
@@ -18,20 +18,20 @@ class Installation(Enigma):
 
     def get_install_message_handler(self, language_one, language_two):
         sys(self.get_system_command())
-        # goto(self.__install_width, self.__install_height_first)
+        goto(self.__install_width, self.__install_height_first)
         self.__install_console_color.print(self.__install_first_color + language_one)
-        # goto(self.__install_width, self.__install_height_second)
+        goto(self.__install_width, self.__install_height_second)
         self.__install_console_color.print(self.__install_first_color + language_two)
 
     def get_install_input(self, language_one, language_two):
         self.get_install_message_handler(language_one, language_two)
-        # goto(self.__install_width, self.__install_height_third)
+        goto(self.__install_width, self.__install_height_third)
         data = input(Fore.GREEN)
         return data
 
     def get_install_password(self, language_one, language_two):
         self.get_install_message_handler(language_one, language_two)
-        # goto(self.__install_width, self.__install_height_third)
+        goto(self.__install_width, self.__install_height_third)
         data = getpass('')
         return data
 
@@ -53,16 +53,6 @@ class Installation(Enigma):
                 data.lower() == 'russian' or data.lower() == 'русский' or
                 data.lower() == 'english' or data.lower() == 'английский'
         ):
-            install.get_install_message_handler(
-                "Ввод персональных данных завершен...",
-                "Entering personal data is completed..."
-            )
-            sleep(1)
-            install.get_install_message_handler(
-                "Установка завершена!",
-                "Installation is completed!"
-            )
-            sleep(1)
             return True
         else:
             install.get_install_message_handler(
@@ -145,6 +135,16 @@ while True:
                                                 "The name of the language must not be less than 2 letters!"
                                         ):
                                             if install.verify_install_language(system_language):
+                                                install.get_install_message_handler(
+                                                    "Ввод персональных данных завершен...",
+                                                    "Entering personal data is completed..."
+                                                )
+                                                sleep(1)
+                                                install.get_install_message_handler(
+                                                    "Установка завершена!",
+                                                    "Installation is completed!"
+                                                )
+                                                sleep(1)
                                                 break
                                     break
                         break
