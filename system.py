@@ -2,23 +2,13 @@ from colorama import Fore
 from ast import literal_eval
 from rich.console import Console
 from bext import goto, hide, title
+from sqlite3 import OperationalError
 from keyboard import press_and_release, release, press
 from data_base import DataBase
-from pykeplib import Enigma, Visual
+from pykeplib import Visual, Descriptor
 
 
-class Descriptor:
-    def __init__(self):
-        pass
-
-    def __set_name__(self, owner, name) -> None:
-        self.name = f"_{name}"
-
-    def __get__(self, instance, owner) -> int:
-        return getattr(instance, self.name)
-
-
-class Files(DataBase, Enigma, Visual):
+class Files(DataBase, Visual):
     name = Descriptor()
     city = Descriptor()
     login = Descriptor()
@@ -38,6 +28,7 @@ class Files(DataBase, Enigma, Visual):
             self, name=0, city=1, login=2, password=3, language=4,
             weather_key=5, resolution=6, color=7, transparency=8
     ):
+        super().__init__()
         self.ver = 1.0
         self._name = name
         self._city = city
@@ -49,10 +40,14 @@ class Files(DataBase, Enigma, Visual):
         self._color = color
         self._transparency = transparency
         self.get_hide = hide()
+        self.console_color = Console()
         self.get_green = Fore.GREEN
-        self.user_data = self.get_value_list()
         self.tui_neon_shell_ru = "ТПИ об. Неон, вер. "
         self.tui_neon_shell_eng = "TUI Neon shell, v. "
+        try:
+            self.user_data = self.get_value_list()
+        except OperationalError:
+            self.add_db_value()
 
     def get_user_data(self, data):
         return self.decoding(self.user_data[data])
@@ -63,7 +58,6 @@ class Files(DataBase, Enigma, Visual):
 
 class System(Files):
     sf = Files()
-    console_color = Console()
 
     width = int(sf.get_resolution_and_color(sf.resolution)[0])
     height = int(sf.get_resolution_and_color(sf.resolution)[1])

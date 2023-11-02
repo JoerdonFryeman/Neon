@@ -4,9 +4,7 @@ from threading import Thread
 from os import system as sys, startfile
 from matrix import Matrix
 from widgets import Widgets
-from settings import Settings
 from authentication import Authentication
-from apps.notes import Notes
 from apps.images import Images
 from apps.clock import ClockWork
 
@@ -84,7 +82,6 @@ def main():
     at.get_authentication()
     get_home_screen()
     sys(wd.get_system_command())
-    wd.get_message_handler("Что-то пошло не так...", "Something's gone wrong...")
 
 
 if __name__ == '__main__':

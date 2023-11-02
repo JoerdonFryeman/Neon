@@ -1,8 +1,9 @@
 import sqlite3 as sq
-from installation import InstallData
+from pykeplib import Enigma
+from installation import Installation
 
 
-class DataBase(InstallData):
+class DataBase(Enigma, Installation):
     def add_db_value(self) -> None:
         with sq.connect('system_data.db') as db:
             cur = db.cursor()
@@ -19,9 +20,11 @@ class DataBase(InstallData):
             cur.execute(
                 "INSERT INTO system VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (
-                    self.coding(self.user_name), self.coding(self.user_city), self.coding(self.user_login),
-                    self.coding(self.user_password), self.coding(self.system_language), self.coding(self.weather_key),
-                    self.system_resolution, self.system_color, self.system_transparency, self.note_file
+                    self.coding(self.edit_user_name), self.coding(self.edit_user_city),
+                    self.coding(self.edit_user_login), self.coding(self.edit_user_password),
+                    self.coding(self.edit_system_language), self.coding(self.edit_weather_key),
+                    self.edit_system_resolution, self.edit_system_color, self.edit_system_transparency,
+                    self.edit_note_file
                 )
             )
 

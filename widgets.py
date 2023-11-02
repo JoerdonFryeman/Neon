@@ -14,6 +14,8 @@ from system import System
 
 
 class Widgets(System, Matrix):
+    __slots__ = ('owm', '_city', 'temp', 'mgr', 'observation', 'w')
+
     def __init__(self):
         super().__init__()
         self.owm = OWM(self.get_user_data(self.weather_key))
