@@ -14,16 +14,17 @@ from system import System
 
 
 class Widgets(System, Matrix):
-    __slots__ = ('owm', '_city', 'temp', 'mgr', 'observation', 'w')
+    __slots__ = ('owm', 'ct', 'temp', 'mgr', 'observation', 'ow')
 
     def __init__(self):
         super().__init__()
+
         self.owm = OWM(self.get_user_data(self.weather_key))
-        self._city = (self.get_user_data(self.city))
-        self.temp = self.owm.weather_manager().weather_at_place(self._city).weather.temperature('celsius')
+        self.ct = (self.get_user_data(self.city))
+        self.temp = self.owm.weather_manager().weather_at_place(self.ct).weather.temperature('celsius')
         self.mgr = self.owm.weather_manager()
-        self.observation = self.mgr.weather_at_place(self._city)
-        self.w = self.observation.weather
+        self.observation = self.mgr.weather_at_place(self.ct)
+        self.ow = self.observation.weather
 
     def get_vertical_bar(self, wdt_wind, count_hgt_wind, wdt_full, count_hgt_full):
         global counter
@@ -191,7 +192,7 @@ class Widgets(System, Matrix):
         self.console_color.print(
             f'{self.first_color}{self.change_language("Температура ", "Temperature ")}'
             f'{self.change_language("в городе ", "in ")}'
-            f'{self._city}: {self.second_color}{self.temp["temp"]}{self.first_color}'
+            f'{self.ct}: {self.second_color}{self.temp["temp"]}{self.first_color}'
             f'{self.change_language(" градусов по Цельсию", " degrees Celsius")}'
         )
         self.get_coordinates(2, 4, 2, int(self.height // 4.13))
@@ -208,41 +209,41 @@ class Widgets(System, Matrix):
         )
         self.console_color.print(
             f'{self.first_color}{self.change_language("Сила ветра: ", "Wind speed: ")}'
-            f'{self.second_color}{self.w.wind()["speed"]}{self.first_color}'
+            f'{self.second_color}{self.ow.wind()["speed"]}{self.first_color}'
             f'{self.change_language(" м/с, влажность: ", "m/s, humidity:")}'
-            f'{self.second_color}{self.w.humidity}%'
+            f'{self.second_color}{self.ow.humidity}%'
         )
 
     def get_detailed_status(self):
         if self.get_user_data(self.language) == 'russian' or self.get_user_data(self.language) == 'русский':
-            if self.w.detailed_status == str('clear sky'):
-                self.w.detailed_status = str('ясно')
-            if self.w.detailed_status == str('few clouds'):
-                self.w.detailed_status = str('облачно')
-            if self.w.detailed_status == str('overcast clouds'):
-                self.w.detailed_status = str('пасмурно')  # полотемнота, сделана облаком
-            if self.w.detailed_status == str('heavy intensity shower rain'):
-                self.w.detailed_status = str('проливной дождь')
-            if self.w.detailed_status == str('broken clouds'):
-                self.w.detailed_status = str('облачно с прояснениями')
-            if self.w.detailed_status == str('light rain'):
-                self.w.detailed_status = str('лёгкий дождь')
-            if self.w.detailed_status == str('scattered clouds'):
-                self.w.detailed_status = str('кучевые облака')
-            if self.w.detailed_status == str('light intensity shower rain'):
-                self.w.detailed_status = str('лёгкий, но интенсивный дождь')
-            if self.w.detailed_status == str('light intensity drizzle rain'):
-                self.w.detailed_status = str('лёгкий, но интенсивный моросящий дождь')
-            if self.w.detailed_status == str('light intensity drizzle'):
-                self.w.detailed_status = str('моросящий дождь')
-            if self.w.detailed_status == str('moderate rain'):
-                self.w.detailed_status = str('небольшой дождь')
-            if self.w.detailed_status == str('mist') or self.w.detailed_status == str('fog'):
-                self.w.detailed_status = str('туман')
-            if self.w.rain == 'rain':
-                self.w.rain = ', дождь'
+            if self.ow.detailed_status == str('clear sky'):
+                self.ow.detailed_status = str('ясно')
+            if self.ow.detailed_status == str('few clouds'):
+                self.ow.detailed_status = str('облачно')
+            if self.ow.detailed_status == str('overcast clouds'):
+                self.ow.detailed_status = str('пасмурно')  # полотемнота, сделана облаком
+            if self.ow.detailed_status == str('heavy intensity shower rain'):
+                self.ow.detailed_status = str('проливной дождь')
+            if self.ow.detailed_status == str('broken clouds'):
+                self.ow.detailed_status = str('облачно с прояснениями')
+            if self.ow.detailed_status == str('light rain'):
+                self.ow.detailed_status = str('лёгкий дождь')
+            if self.ow.detailed_status == str('scattered clouds'):
+                self.ow.detailed_status = str('кучевые облака')
+            if self.ow.detailed_status == str('light intensity shower rain'):
+                self.ow.detailed_status = str('лёгкий, но интенсивный дождь')
+            if self.ow.detailed_status == str('light intensity drizzle rain'):
+                self.ow.detailed_status = str('лёгкий, но интенсивный моросящий дождь')
+            if self.ow.detailed_status == str('light intensity drizzle'):
+                self.ow.detailed_status = str('моросящий дождь')
+            if self.ow.detailed_status == str('moderate rain'):
+                self.ow.detailed_status = str('небольшой дождь')
+            if self.ow.detailed_status == str('mist') or self.ow.detailed_status == str('fog'):
+                self.ow.detailed_status = str('туман')
+            if self.ow.rain == 'rain':
+                self.ow.rain = ', дождь'
         else:
-            f'{self.w.detailed_status}'
+            f'{self.ow.detailed_status}'
 
     def get_detailed_weather(self, grad_first, grad_second, status):
         self.get_detailed_status()
@@ -250,7 +251,7 @@ class Widgets(System, Matrix):
             2, 6, 2, int(self.height // self.get_symbol_resolution(4.04, 4.01))
         )
         if int(grad_first) <= self.temp['feels_like'] <= int(grad_second):
-            self.console_color.print(f"{self.first_color}{status}, {self.w.detailed_status}")
+            self.console_color.print(f"{self.first_color}{status}, {self.ow.detailed_status}")
 
     def get_weather(self):
         try:

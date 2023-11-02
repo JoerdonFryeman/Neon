@@ -29,6 +29,7 @@ class Files(DataBase, Visual):
             weather_key=5, resolution=6, color=7, transparency=8
     ):
         super().__init__()
+
         self.ver = 1.0
         self._name = name
         self._city = city
@@ -57,19 +58,27 @@ class Files(DataBase, Visual):
 
 
 class System(Files):
-    sf = Files()
+    middle_width = Descriptor()
+    middle_height = Descriptor()
+    under_height = Descriptor()
+    under_width = Descriptor()
 
-    width = int(sf.get_resolution_and_color(sf.resolution)[0])
-    height = int(sf.get_resolution_and_color(sf.resolution)[1])
+    __slots__ = ('_middle_width', '_middle_height', '_under_height', '_under_width')
 
-    _middle_width = int(width // 5)
-    _middle_height = int(height // 2)
-    _under_height = int(2)
-    _under_width = int(height - 2)
+    def __init__(self):
+        super().__init__()
 
-    first_color = sf.get_resolution_and_color(sf.color)[0]
-    second_color = sf.get_resolution_and_color(sf.color)[1]
-    third_color = sf.get_resolution_and_color(sf.color)[2]
+        self.width = int(self.get_resolution_and_color(self.resolution)[0])
+        self.height = int(self.get_resolution_and_color(self.resolution)[1])
+
+        self._middle_width = int(self.width // 5)
+        self._middle_height = int(self.height // 2)
+        self._under_height = int(2)
+        self._under_width = int(self.height - 2)
+
+        self.first_color = self.get_resolution_and_color(self.color)[0]
+        self.second_color = self.get_resolution_and_color(self.color)[1]
+        self.third_color = self.get_resolution_and_color(self.color)[2]
 
     def get_coordinates(self, wdt_wind, hgt_wind, wdt_full, hgt_full):
         if self.width == 120 and self.height == 30:
@@ -124,7 +133,7 @@ class System(Files):
             return language_two
 
     def get_enter_action(self, language_one, language_two):
-        self.get_coordinates(self._under_height, self._under_width, self._under_height, self._under_width + 1)
+        self.get_coordinates(self.under_height, self.under_width, self.under_height, self.under_width + 1)
         if self.get_user_data(self.language) == 'russian' or self.get_user_data(self.language) == 'русский':
             return self.console_color.input(self.first_color + language_one)
         elif self.get_user_data(self.language) == 'english' or self.get_user_data(self.language) == 'английский':
@@ -133,5 +142,5 @@ class System(Files):
             return self.console_color.input(self.first_color + language_two)
 
     def get_message_handler(self, language_one, language_two):
-        self.get_coordinates(self._middle_width, self._middle_height, self._middle_width, self._middle_height)
+        self.get_coordinates(self.middle_width, self.middle_height, self._middle_width, self.middle_height)
         self.console_color.print(self.first_color + self.change_language(language_one, language_two))
