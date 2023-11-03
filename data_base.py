@@ -1,10 +1,40 @@
 import sqlite3 as sq
-from pykeplib import Enigma
 from installation import Installation
+from pykeplib import Enigma, Descriptor
 
 
 class DataBase(Enigma, Installation):
+    name = Descriptor()
+    city = Descriptor()
+    login = Descriptor()
+    password = Descriptor()
+    language = Descriptor()
+    weather_key = Descriptor()
+    resolution = Descriptor()
+    color = Descriptor()
+    transparency = Descriptor()
+
+    __slots__ = (
+        '_name', '_city', '_login', '_password', '_language',
+        '_weather_key', '_resolution', '_color', '_transparency'
+    )
+
+    def __init__(
+            self, name=0, city=1, login=2, password=3, language=4, weather_key=5, resolution=6, color=7, transparency=8
+    ):
+        super().__init__()
+        self._name = name
+        self._city = city
+        self._login = login
+        self._password = password
+        self._language = language
+        self._weather_key = weather_key
+        self._resolution = resolution
+        self._color = color
+        self._transparency = transparency
+
     def add_db_value(self) -> None:
+        edit_data = self.get_installation()  # or self.settings()
         with sq.connect('system_data.db') as db:
             cur = db.cursor()
             cur.execute(
@@ -20,11 +50,10 @@ class DataBase(Enigma, Installation):
             cur.execute(
                 "INSERT INTO system VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (
-                    self.coding(self.edit_user_name), self.coding(self.edit_user_city),
-                    self.coding(self.edit_user_login), self.coding(self.edit_user_password),
-                    self.coding(self.edit_system_language), self.coding(self.edit_weather_key),
-                    self.edit_system_resolution, self.edit_system_color, self.edit_system_transparency,
-                    self.edit_note_file
+                    self.coding(edit_data[self.name]), self.coding(edit_data[self.city]),
+                    self.coding(edit_data[self.login]), self.coding(edit_data[self.password]),
+                    self.coding(edit_data[self.language]), self.coding(edit_data[self.weather_key]),
+                    edit_data[self.resolution], edit_data[self.color], edit_data[self.transparency]
                 )
             )
 

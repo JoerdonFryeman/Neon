@@ -18,7 +18,6 @@ class Widgets(System, Matrix):
 
     def __init__(self):
         super().__init__()
-
         self.owm = OWM(self.get_user_data(self.weather_key))
         self.ct = (self.get_user_data(self.city))
         self.temp = self.owm.weather_manager().weather_at_place(self.ct).weather.temperature('celsius')

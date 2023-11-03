@@ -8,11 +8,14 @@ from authentication import Authentication
 from apps.images import Images
 from apps.clock import ClockWork
 
-at = Authentication()
-wd = Widgets()
-im = Images()
-cl = ClockWork()
-mx = Matrix()
+try:
+    at = Authentication()
+    wd = Widgets()
+    im = Images()
+    cl = ClockWork()
+    mx = Matrix()
+except AttributeError:
+    pass
 
 
 def get_programs_commands():
@@ -76,12 +79,16 @@ def get_home_screen():
 
 def main():
     """Entry point"""
-    wd.get_screen_mode()
-    wd.verify_transparency()
-    wd.get_start_screen()
-    at.get_authentication()
-    get_home_screen()
-    sys(wd.get_system_command())
+    try:
+        wd.get_screen_mode()
+        wd.verify_transparency()
+        wd.get_start_screen()
+        at.get_authentication()
+        get_home_screen()
+        sys(wd.get_system_command())
+    except NameError:
+        startfile('neon.exe')
+        exit()
 
 
 if __name__ == '__main__':

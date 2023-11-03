@@ -1,7 +1,5 @@
-from colorama import Fore
 from ast import literal_eval
-from rich.console import Console
-from bext import goto, hide, title
+from bext import goto, title
 from sqlite3 import OperationalError
 from keyboard import press_and_release, release, press
 from data_base import DataBase
@@ -9,40 +7,11 @@ from pykeplib import Visual, Descriptor
 
 
 class Files(DataBase, Visual):
-    name = Descriptor()
-    city = Descriptor()
-    login = Descriptor()
-    password = Descriptor()
-    language = Descriptor()
-    weather_key = Descriptor()
-    resolution = Descriptor()
-    color = Descriptor()
-    transparency = Descriptor()
+    __slots__ = ('ver', 'tui_neon_shell_ru', 'tui_neon_shell_eng', 'user_data')
 
-    __slots__ = (
-        'ver', '_name', '_city', '_login', '_password', '_language', '_weather_key', '_resolution', '_color',
-        '_transparency', 'get_hide', 'get_green', 'user_data', 'tui_neon_shell_ru', 'tui_neon_shell_eng'
-    )
-
-    def __init__(
-            self, name=0, city=1, login=2, password=3, language=4,
-            weather_key=5, resolution=6, color=7, transparency=8
-    ):
+    def __init__(self):
         super().__init__()
-
         self.ver = 1.0
-        self._name = name
-        self._city = city
-        self._login = login
-        self._password = password
-        self._language = language
-        self._weather_key = weather_key
-        self._resolution = resolution
-        self._color = color
-        self._transparency = transparency
-        self.get_hide = hide()
-        self.console_color = Console()
-        self.get_green = Fore.GREEN
         self.tui_neon_shell_ru = "ТПИ об. Неон, вер. "
         self.tui_neon_shell_eng = "TUI Neon shell, v. "
         try:
@@ -63,7 +32,10 @@ class System(Files):
     under_height = Descriptor()
     under_width = Descriptor()
 
-    __slots__ = ('_middle_width', '_middle_height', '_under_height', '_under_width')
+    __slots__ = (
+        'width', 'height', '_middle_width', '_middle_height', '_under_height',
+        '_under_width', 'first_color', 'second_color', 'third_color'
+    )
 
     def __init__(self):
         super().__init__()
