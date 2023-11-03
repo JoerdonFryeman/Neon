@@ -1,3 +1,4 @@
+from os import startfile
 from ast import literal_eval
 from bext import goto, title
 from sqlite3 import OperationalError
@@ -11,13 +12,16 @@ class Files(DataBase, Visual):
 
     def __init__(self):
         super().__init__()
-        self.ver = 1.0
+        self.ver = 0.9
+        self.neon = f"{''.join(f'Neon{self.ver}'.split('.'))}.exe"
         self.tui_neon_shell_ru = "ТПИ об. Неон, вер. "
         self.tui_neon_shell_eng = "TUI Neon shell, v. "
         try:
             self.user_data = self.get_value_list()
         except OperationalError:
             self.add_db_value()
+            startfile(self.neon)
+            exit()
 
     def get_user_data(self, data):
         return self.decoding(self.user_data[data])
