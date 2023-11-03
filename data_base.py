@@ -13,14 +13,16 @@ class DataBase(Enigma, Installation):
     resolution = Descriptor()
     color = Descriptor()
     transparency = Descriptor()
+    note_file = Descriptor()
 
     __slots__ = (
         '_name', '_city', '_login', '_password', '_language',
-        '_weather_key', '_resolution', '_color', '_transparency'
+        '_weather_key', '_resolution', '_color', '_transparency', '_note_file'
     )
 
     def __init__(
-            self, name=0, city=1, login=2, password=3, language=4, weather_key=5, resolution=6, color=7, transparency=8
+            self, name=0, city=1, login=2, password=3, language=4,
+            weather_key=5, resolution=6, color=7, transparency=8, note_file=9
     ):
         super().__init__()
         self._name = name
@@ -32,6 +34,7 @@ class DataBase(Enigma, Installation):
         self._resolution = resolution
         self._color = color
         self._transparency = transparency
+        self._note_file = note_file
 
     def add_db_value(self) -> None:
         edit_data = self.get_installation()  # or self.settings()
@@ -53,7 +56,8 @@ class DataBase(Enigma, Installation):
                     self.coding(edit_data[self.name]), self.coding(edit_data[self.city]),
                     self.coding(edit_data[self.login]), self.coding(edit_data[self.password]),
                     self.coding(edit_data[self.language]), self.coding(edit_data[self.weather_key]),
-                    edit_data[self.resolution], edit_data[self.color], edit_data[self.transparency]
+                    edit_data[self.resolution], edit_data[self.color], edit_data[self.transparency],
+                    edit_data[self.note_file]
                 )
             )
 
