@@ -10,7 +10,7 @@ class Settings(Widgets):
         while True:
             self.get_taskbar()
             self.get_coordinates(self.middle_width - 6, self.middle_height, self.middle_width, self.middle_height)
-            self.change_language(
+            self.get_message_handler(
                 "Имя, город, логин, пароль, язык, цвет, режим экрана, прозрачность, погода",
                 "Name, city, login, password, language, color, window mode, transparency, weather"
             )
