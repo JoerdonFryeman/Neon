@@ -12,7 +12,7 @@ class Files(DataBase, Visual):
 
     def __init__(self):
         super().__init__()
-        self.ver = 0.9
+        self.ver = 1.0
         self.neon = f"{''.join(f'Neon{self.ver}'.split('.'))}.exe"
         self.tui_neon_shell_ru = "ТПИ об. Неон, вер. "
         self.tui_neon_shell_eng = "TUI Neon shell, v. "
