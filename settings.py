@@ -3,9 +3,65 @@ from bext import height
 from getpass import getpass
 from widgets import Widgets
 from keyboard import press_and_release
+from authentication import Authentication
 
 
-class Settings(Widgets):
+class Settings(Authentication, Widgets):
+    @staticmethod
+    def verify_color(color):
+        if color == 'белый': color = 'white'
+        if color == 'красный': color = 'red'
+        if color == 'зелёный' or color == 'зеленый': color = 'green'
+        if color == 'синий' or color == 'голубой' or color == 'blue': color = 'bold blue'
+        if color == 'жёлтый' or color == 'желтый': color = 'yellow'
+        if color == 'фиолетовый' or color == 'сиреневый' or color == 'лиловый': color = 'purple'
+        return color
+
+    def get_task_and_coords(self):
+        self.get_taskbar()
+        self.get_coordinates(self.middle_width, self.middle_height, self.middle_width, self.middle_height)
+
+    def get_data(self, mess_first, mess_second):
+        self.get_taskbar()
+        self.get_coordinates(self.middle_width - 6, self.middle_height, self.middle_width, self.middle_height)
+        return self.console_color.input(self.first_color + self.change_language(mess_first, mess_second))
+
+    def edit_data(self, data, value_one, value_two, mess_first, mess_second):
+        if data == '':
+            return self.get_data("Неверная команда!", "Wrong command!")
+        elif len(data) < value_one or len(data) > value_two:
+            return self.get_data(mess_first, mess_second)
+        else:
+            self.get_data("Изменения сохранены!", "Changes saved!")
+            return data
+
+    def edit_password(self):
+        new_password = self.edit_data(
+            getpass(
+                self.get_data(
+                    "Введите новый пароль (ввод не отображается...)",
+                    "Enter the new password (input not displayed...)"
+                )
+            ), 7, 100000,
+            "Пароль не может быть меньше 7 символов!",
+            "Password must not be less than 7 letters!"
+        )
+        new_password_retry = getpass(
+            self.get_data(
+                "Повторите пароль (ввод не отображается...)",
+                "Repeat the password (input not displayed...)"
+            )
+        )
+        if new_password_retry == '':
+            return self.get_data("Неверная команда!", "Wrong command!")
+        elif new_password_retry != new_password:
+            return self.get_data(
+                "Подтверждение не совпадает с паролем!",
+                "Confirmation does not match the password!"
+            )
+        else:
+            return new_password
+
     def get_command(self):
         while True:
             self.get_taskbar()
@@ -17,15 +73,33 @@ class Settings(Widgets):
             cmd = self.get_enter_action("Введите действие: ", "Enter action: ")
             if cmd == '':
                 break
+
             while True:
                 if cmd.lower() == "имя" or cmd.lower() == "name" or cmd.lower() == "и" or cmd.lower() == "n":
-                    self.edit_name()
+                    self.edit_data(
+                        self.get_data("Введите новое имя: ", "Enter new username: "),
+                        2, 11, "Имя не должно быть меньше 2-х или больше 11-ти символов!",
+                        "The name must not be less than 2 or more than 11 letters!"
+                    )
                     break
                 elif cmd.lower() == "город" or cmd.lower() == "city" or cmd.lower() == "г" or cmd.lower() == "c":
-                    self.edit_city()
+                    self.edit_data(
+                        self.get_data(
+                            "Введите Ваш город (Необходимо для предоставления сведений о погоде)",
+                            "Enter your city (Required to provide weather information)"
+                        ), 2, 100000,
+                        "Название города не может быть меньше 2 символов!",
+                        "The name of the city must not be less than 2 letters!"
+                    )
                     break
                 elif cmd.lower() == "логин" or cmd.lower() == "login" or cmd.lower() == "л" or cmd.lower() == "l":
-                    self.edit_login()
+                    self.get_authentication()
+                    self.edit_data(
+                        self.get_data("Придумайте логин", "Create a login"),
+                        2, 15,
+                        "Логин не может быть меньше 2 или больше 15 символов!",
+                        "Login must not be less than 2 or more than 15 letters!"
+                    )
                     break
                 elif cmd.lower() == "пароль" or cmd.lower() == "password" or cmd.lower() == "п" or cmd.lower() == "p":
                     self.edit_password()
@@ -51,59 +125,21 @@ class Settings(Widgets):
                 else:
                     self.get_message_handler("Неверная команда!", "Wrong command!")
 
-    @staticmethod
-    def verify_color(color):
-        if color == 'белый': color = 'white'
-        if color == 'красный': color = 'red'
-        if color == 'зелёный' or color == 'зеленый': color = 'green'
-        if color == 'синий' or color == 'голубой' or color == 'blue': color = 'bold blue'
-        if color == 'жёлтый' or color == 'желтый': color = 'yellow'
-        if color == 'фиолетовый' or color == 'сиреневый' or color == 'лиловый': color = 'purple'
-        return color
-
-    def get_taskbar_and_coordinates(self):
-        self.get_taskbar()
-        self.get_coordinates(self.middle_width, self.middle_height, self.middle_width, self.middle_height)
-
-    def edit_name(self):
-        self.get_taskbar_and_coordinates()
-        get_user_name = self.get_enter_action("Введите новое имя: ", "Enter new username: ")
-        if get_user_name == '':
-            return self.get_enter_action("Неверная команда!", "Wrong command!")
-        elif len(get_user_name) < 2 or len(get_user_name) > 11:
-            self.get_taskbar_and_coordinates()
-            return self.get_enter_action(
-                "Имя не должно быть меньше 2-х или больше 11-ти символов!",
-                "The name must not be less than 2 or more than 11 letters!"
-            )
-        else:
-            self.get_enter_action("Изменения сохранены!", "Changes saved!")
-            return get_user_name
-
-    def edit_city(self):
-        self.get_taskbar_and_coordinates()
-
-    def edit_login(self):
-        self.get_taskbar_and_coordinates()
-
-    def edit_password(self):
-        self.get_taskbar_and_coordinates()
-
     def edit_language(self):
-        self.get_taskbar_and_coordinates()
+        self.get_task_and_coords()
 
     def edit_color(self):
         counter = 0
         colorlist = []
 
         for i in range(3):
-            self.get_taskbar_and_coordinates()
+            self.get_task_and_coords()
 
     def edit_window_mode(self):
-        self.get_taskbar_and_coordinates()
+        self.get_task_and_coords()
 
     def edit_weather_key(self):
-        self.get_taskbar_and_coordinates()
+        self.get_task_and_coords()
 
     def edit_transparency(self):
-        self.get_taskbar_and_coordinates()
+        self.get_task_and_coords()

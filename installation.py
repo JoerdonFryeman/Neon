@@ -47,12 +47,12 @@ class Installation(PyKepLib):
         data = getpass('')
         return data
 
-    def verify_install_data(self, data, value, value_two, mess_first, mess_second, mess_third, mess_four):
+    def verify_install_data(self, data, value_one, value_two, mess_first, mess_second, mess_third, mess_four):
         if data == '':
             self.get_install_message_handler(mess_first, mess_second)
             input()
             return False
-        if len(data) < value or len(data) > value_two:
+        if len(data) < value_one or len(data) > value_two:
             self.get_install_message_handler(mess_third, mess_four)
             input()
             return False
@@ -99,10 +99,10 @@ class Installation(PyKepLib):
                         "Enter your city (Required to provide weather information)"
                     )
                     if self.verify_install_data(
-                            user_city, 2, 20, "Необходимо ввести название города!",
+                            user_city, 2, 100000, "Необходимо ввести название города!",
                             "You must enter the name of your city!",
-                            "Название города не может быть меньше 2 или больше 20 символов!",
-                            "The name of the city must not be less than 2 or more than 20 letters!"
+                            "Название города не может быть меньше 2 символов!",
+                            "The name of the city must not be less than 2 letters!"
                     ):
                         install_data_list_first.append(user_city)
                         while True:
@@ -122,10 +122,10 @@ class Installation(PyKepLib):
                                         "Create a password (input is not displayed...)"
                                     )
                                     if self.verify_install_data(
-                                            user_password, 7, 25, "Необходимо ввести пароль!",
+                                            user_password, 7, 100000, "Необходимо ввести пароль!",
                                             "You have to enter a password!",
-                                            "Пароль не может быть меньше 7 или больше 25 символов!",
-                                            "Password must not be less than 7 or more than 15 letters!"
+                                            "Пароль не может быть меньше 7 символов!",
+                                            "Password must not be less than 7 letters!"
                                     ):
                                         user_password_retry = self.get_install_password(
                                             "Повторите пароль (ввод не отображается...)",
@@ -145,7 +145,7 @@ class Installation(PyKepLib):
                                                     "Select a language — russian or english"
                                                 )
                                                 if self.verify_install_data(
-                                                        system_language, 2, 1000,
+                                                        system_language, 2, 100000,
                                                         "Необходимо выбрать язык!",
                                                         "You have to enter language!",
                                                         "Название языка не может быть меньше 2 символов!",

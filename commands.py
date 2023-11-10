@@ -2,14 +2,14 @@ from time import sleep
 from random import randint
 from threading import Thread
 from os import system as sys, startfile
-from authentication import Authentication
 from apps.clock import ClockWork
 from apps.images import Images
+from settings import Settings
 from widgets import Widgets
 from matrix import Matrix
 
 
-class Commands(Authentication, ClockWork, Images, Widgets, Matrix):
+class Commands(Settings, ClockWork, Images, Widgets, Matrix):
     def get_programs_commands(self):
         while True:
             self.get_taskbar()
@@ -32,6 +32,8 @@ class Commands(Authentication, ClockWork, Images, Widgets, Matrix):
             self.get_shutdown_or_reboot(self.change_language("Перезагрузка", "Reboot"))
             startfile(self.neon)
             exit()
+        elif cmd.lower() == 'опции' or cmd.lower() == 'о' or cmd.lower() == 'settings' or cmd.lower() == 's':
+            self.get_command()
         elif cmd.lower() == 'программы' or cmd.lower() == 'п' or cmd.lower() == 'programs' or cmd.lower() == 'p':
             self.get_programs_commands()
         elif cmd.lower() == 'матрица' or cmd.lower() == 'matrix' or cmd.lower() == 'м' or cmd.lower() == 'm':
