@@ -1,4 +1,3 @@
-from time import sleep
 from getpass import getpass
 from os import system as sys
 from widgets import Widgets
@@ -28,11 +27,6 @@ class Authentication(Widgets):
                     password = getpass('')
                     if password != '':
                         if password == self.get_user_data(self.password):
-                            sys(self.get_system_command())
-                            self.get_message_handler(
-                                f"Добро пожаловать, {self.get_user_data(self.name)}!",
-                                f"Welcome, {self.get_user_data(self.name)}!"
-                            ), sleep(2)
                             break
                         else:
                             self.get_invalid_answer("Неверный пароль!", "Invalid password!")

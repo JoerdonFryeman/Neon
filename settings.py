@@ -17,22 +17,18 @@ class Settings(Authentication, Widgets):
         if color == 'фиолетовый' or color == 'сиреневый' or color == 'лиловый': color = 'purple'
         return color
 
-    def get_task_and_coords(self):
+    def get_data(self, mess_first, mess_second, width_value):
         self.get_taskbar()
-        self.get_coordinates(self.middle_width, self.middle_height, self.middle_width, self.middle_height)
-
-    def get_data(self, mess_first, mess_second):
-        self.get_taskbar()
-        self.get_coordinates(self.middle_width - 6, self.middle_height, self.middle_width, self.middle_height)
+        self.get_coordinates(self.middle_width - width_value, self.middle_height, self.middle_width, self.middle_height)
         return self.console_color.input(self.first_color + self.change_language(mess_first, mess_second))
 
     def edit_data(self, data, value_one, value_two, mess_first, mess_second):
         if data == '':
-            return self.get_data("Неверная команда!", "Wrong command!")
+            return self.get_data("Неверная команда!", "Wrong command!", 6)
         elif len(data) < value_one or len(data) > value_two:
-            return self.get_data(mess_first, mess_second)
+            return self.get_data(mess_first, mess_second, 6)
         else:
-            self.get_data("Изменения сохранены!", "Changes saved!")
+            self.get_data("Изменения сохранены!", "Changes saved!", 6)
             return data
 
     def edit_password(self):
@@ -40,7 +36,7 @@ class Settings(Authentication, Widgets):
             getpass(
                 self.get_data(
                     "Введите новый пароль (ввод не отображается...)",
-                    "Enter the new password (input not displayed...)"
+                    "Enter the new password (input not displayed...)", 6
                 )
             ), 7, 100000,
             "Пароль не может быть меньше 7 символов!",
@@ -49,18 +45,51 @@ class Settings(Authentication, Widgets):
         new_password_retry = getpass(
             self.get_data(
                 "Повторите пароль (ввод не отображается...)",
-                "Repeat the password (input not displayed...)"
+                "Repeat the password (input not displayed...)", 6
             )
         )
         if new_password_retry == '':
-            return self.get_data("Неверная команда!", "Wrong command!")
+            return self.get_data("Неверная команда!", "Wrong command!", 6)
         elif new_password_retry != new_password:
             return self.get_data(
                 "Подтверждение не совпадает с паролем!",
-                "Confirmation does not match the password!"
+                "Confirmation does not match the password!", 6
             )
         else:
+            self.get_data("Изменения сохранены!", "Changes saved!", 6)
             return new_password
+
+    def edit_language(self, data):
+        if data == "русский" or data == "russian" or data == "английский" or data == "english":
+            self.get_data("Изменения сохранены!", "Changes saved!", 6)
+            return data
+        else:
+            self.get_data(
+                "Введите название языка буквами — русский или английский...",
+                "Enter the name of the language in letters — russian or english...", 6
+            )
+
+    def edit_color(self):
+        counter = 0
+        color_list = []
+
+        for i in range(3):
+            data = self.get_data(
+                f"Выберите цвет номер {counter + 1}... Красный, зелёный, синий, белый, жёлтый, сиреневый: ",
+                f"Change color number {counter}... Red, green, blue, white, yellow, purple: ", 6
+            )
+            if data == '':
+                return self.get_data("Неверная команда!", "Wrong command!", 6)
+            color_list.append(f'[{self.verify_color(data)}]')
+            if self.verify_color(data) == 'red' or self.verify_color(data) == 'green' or \
+                    self.verify_color(data) == 'bold blue' or self.verify_color(data) == 'yellow' or \
+                    self.verify_color(data) == 'purple' or self.verify_color(data) == 'white':
+                counter += 1
+                if counter == 3:
+                    self.get_data("Изменения сохранены!", "Changes saved!", 6)
+                    return color_list
+            else:
+                return self.get_data("Неверная команда!", "Wrong command!", 6)
 
     def get_command(self):
         while True:
@@ -77,17 +106,14 @@ class Settings(Authentication, Widgets):
             while True:
                 if cmd.lower() == "имя" or cmd.lower() == "name" or cmd.lower() == "и" or cmd.lower() == "n":
                     self.edit_data(
-                        self.get_data("Введите новое имя: ", "Enter new username: "),
-                        2, 11, "Имя не должно быть меньше 2-х или больше 11-ти символов!",
+                        self.get_data("Введите новое имя: ", "Enter new username: ", 6), 2, 11,
+                        "Имя не должно быть меньше 2-х или больше 11-ти символов!",
                         "The name must not be less than 2 or more than 11 letters!"
                     )
                     break
                 elif cmd.lower() == "город" or cmd.lower() == "city" or cmd.lower() == "г" or cmd.lower() == "c":
                     self.edit_data(
-                        self.get_data(
-                            "Введите Ваш город (Необходимо для предоставления сведений о погоде)",
-                            "Enter your city (Required to provide weather information)"
-                        ), 2, 100000,
+                        self.get_data("Обновите Ваш город: ", "Change your city: ", 6), 2, 100000,
                         "Название города не может быть меньше 2 символов!",
                         "The name of the city must not be less than 2 letters!"
                     )
@@ -95,17 +121,22 @@ class Settings(Authentication, Widgets):
                 elif cmd.lower() == "логин" or cmd.lower() == "login" or cmd.lower() == "л" or cmd.lower() == "l":
                     self.get_authentication()
                     self.edit_data(
-                        self.get_data("Придумайте логин", "Create a login"),
-                        2, 15,
+                        self.get_data("Придумайте логин", "Create a login", 6), 2, 15,
                         "Логин не может быть меньше 2 или больше 15 символов!",
                         "Login must not be less than 2 or more than 15 letters!"
                     )
                     break
                 elif cmd.lower() == "пароль" or cmd.lower() == "password" or cmd.lower() == "п" or cmd.lower() == "p":
+                    self.get_authentication()
                     self.edit_password()
                     break
                 elif cmd.lower() == "язык" or cmd.lower() == "language" or cmd.lower() == "л" or cmd.lower() == "l":
-                    self.edit_language()
+                    self.edit_language(
+                        self.get_data(
+                            "Выберите язык — русский или английский: ",
+                            "Select a language — russian or english: ", 6
+                        ).lower()
+                    )
                     break
                 elif cmd.lower() == "цвет" or cmd.lower() == "color" or cmd.lower() == "ц" or cmd.lower() == "co":
                     self.edit_color()
@@ -125,21 +156,11 @@ class Settings(Authentication, Widgets):
                 else:
                     self.get_message_handler("Неверная команда!", "Wrong command!")
 
-    def edit_language(self):
-        self.get_task_and_coords()
-
-    def edit_color(self):
-        counter = 0
-        colorlist = []
-
-        for i in range(3):
-            self.get_task_and_coords()
-
     def edit_window_mode(self):
-        self.get_task_and_coords()
+        pass
 
     def edit_weather_key(self):
-        self.get_task_and_coords()
+        pass
 
     def edit_transparency(self):
-        self.get_task_and_coords()
+        pass

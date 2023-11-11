@@ -1,3 +1,4 @@
+from time import sleep
 from os import system as sys
 from commands import Commands
 
@@ -18,9 +19,14 @@ class Application(Commands):
         self.get_screen_mode()
         self.verify_transparency()
         self.get_start_screen()
-        self.get_authentication()
-        self.get_home_screen()
-        sys(self.get_system_command())
+        if self.get_authentication():
+            sys(self.get_system_command())
+            self.get_message_handler(
+                f"Добро пожаловать, {self.get_user_data(self.name)}!",
+                f"Welcome, {self.get_user_data(self.name)}!"
+            ), sleep(2)
+            self.get_home_screen()
+            sys(self.get_system_command())
 
 
 if __name__ == '__main__':
