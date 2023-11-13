@@ -328,7 +328,7 @@ class Widgets(System, Matrix):
         return f'{month(int(f"{datetime.now():%Y}"), int(f"{datetime.now():%m}"), 3, 2)}'
 
     def get_message_handler(self, language_one, language_two, width_value, function):
-        function()
+        assert isinstance(function, object)
         self.get_coordinates(
             self.middle_width - width_value, self.middle_height, self._middle_width, self.middle_height
         )
@@ -336,10 +336,10 @@ class Widgets(System, Matrix):
 
     def verify_length(self, data, value_one, value_two, mess_first, mess_second, width_value):
         if len(data) < value_one or len(data) > value_two:
-            self.console_color.input(self.get_message_handler(mess_first, mess_second, width_value, self.get_taskbar))
+            self.console_color.input(self.get_message_handler(mess_first, mess_second, width_value, self.get_taskbar()))
         raise ValueError
 
     def verify_void(self, data, mess_first, mess_second, width_value):
         if data == '':
-            self.console_color.input(self.get_message_handler(mess_first, mess_second, width_value, self.get_taskbar))
+            self.console_color.input(self.get_message_handler(mess_first, mess_second, width_value, self.get_taskbar()))
         raise ValueError

@@ -20,7 +20,6 @@ class Application(Commands):
         self.verify_transparency()
         self.get_start_screen()
         self.get_authentication()
-        sys(self.get_system_command())
         self.console_color.print(
             self.get_message_handler(
                 f"Добро пожаловать, {self.get_user_data(self.name)}!",
@@ -28,7 +27,6 @@ class Application(Commands):
             )
         ), sleep(2)
         self.get_home_screen()
-        sys(self.get_system_command())
 
 
 if __name__ == '__main__':
