@@ -13,7 +13,11 @@ class Commands(Settings, ClockWork, Images, Widgets, Matrix):
     def get_programs_commands(self):
         while True:
             self.get_taskbar()
-            self.get_message_handler("Контакты, пароли, кнб", "Contacts, passwords, rps")
+            self.console_color.print(
+                self.get_message_handler(
+                    "Контакты, пароли, кнб", "Contacts, passwords, rps", 0
+                )
+            )
             cmd = self.get_enter_action("Введите действие: ", "Enter action: ")
             if cmd.lower() == '#':
                 pass
@@ -21,7 +25,9 @@ class Commands(Settings, ClockWork, Images, Widgets, Matrix):
                 break
             else:
                 self.get_taskbar()
-                self.get_message_handler("Неверная команда!", "Wrong command!")
+                self.console_color.print(
+                    self.get_message_handler("Неверная команда!", "Wrong command!", 0)
+                )
 
     def get_main_commands(self):
         cmd = self.get_enter_action("Введите действие: ", "Enter action: ")
@@ -51,9 +57,9 @@ class Commands(Settings, ClockWork, Images, Widgets, Matrix):
             sleep(0.3)
         elif cmd == '':
             self.get_taskbar()
-            self.get_message_handler("Вы ничего не ответили!", "You didn't answer!")
+            self.console_color.print(self.get_message_handler("Вы ничего не ответили!", "You didn't answer!", 0))
             self.get_enter_action("Нажмите действие для возврата...", "Press to return...")
         else:
             self.get_taskbar()
-            self.get_message_handler("Неверная команда!", "Wrong command!")
+            self.console_color.print(self.get_message_handler("Неверная команда!", "Wrong command!", 0))
             self.get_enter_action("Нажмите действие для возврата...", "Press to return...")

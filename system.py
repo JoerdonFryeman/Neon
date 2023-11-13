@@ -117,6 +117,18 @@ class System(Files):
         else:
             return self.console_color.input(self.first_color + language_two)
 
-    def get_message_handler(self, language_one, language_two):
-        self.get_coordinates(self.middle_width, self.middle_height, self._middle_width, self.middle_height)
-        self.console_color.print(self.first_color + self.change_language(language_one, language_two))
+    def get_message_handler(self, language_one, language_two, width_value):
+        self.get_coordinates(
+            self.middle_width - width_value, self.middle_height, self._middle_width, self.middle_height
+        )
+        return self.first_color + self.change_language(language_one, language_two)
+
+    def verify_void(self, data, mess_first, mess_second, width_value):
+        if data == '':
+            self.console_color.input(self.get_message_handler(mess_first, mess_second, width_value))
+        raise ValueError
+
+    def verify_length(self, data, value_one, value_two, mess_first, mess_second, width_value):
+        if len(data) < value_one or len(data) > value_two:
+            self.console_color.input(self.get_message_handler(mess_first, mess_second, width_value))
+        raise ValueError
