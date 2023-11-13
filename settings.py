@@ -1,5 +1,3 @@
-from bext import width
-from bext import height
 from getpass import getpass
 from widgets import Widgets
 from keyboard import press_and_release
@@ -21,7 +19,9 @@ class Settings(Authentication, Widgets):
         self.verify_void(data, "Неверная команда!", "Wrong command!", 6)
         self.verify_length(data, value_one, value_two, mess_first, mess_second, 6)
         self.console_color.input(
-            self.get_message_handler("Изменения сохранены!", "Changes saved!", 6)
+            self.get_message_handler(
+                "Изменения сохранены!", "Changes saved!", 6, self.get_taskbar
+            )
         )
         return data
 
@@ -31,7 +31,7 @@ class Settings(Authentication, Widgets):
                 self.console_color.print(
                     self.get_message_handler(
                         "Введите новый пароль (ввод не отображается...)",
-                        "Enter the new password (input not displayed...)", 6
+                        "Enter the new password (input not displayed...)", 6, self.get_taskbar
                     )
                 )
             )
@@ -45,17 +45,16 @@ class Settings(Authentication, Widgets):
                 self.console_color.print(
                     self.get_message_handler(
                         "Повторите пароль (ввод не отображается...)",
-                        "Repeat the password (input not displayed...)", 6
+                        "Repeat the password (input not displayed...)", 6, self.get_taskbar
                     )
                 )
             )
             if new_password != new_password_retry:
-                self.get_taskbar()
                 self.get_coordinates(self.middle_width - 6, self.middle_height, self.middle_width, self.middle_height)
                 return self.console_color.input(
                     self.get_message_handler(
                         "Подтверждение не совпадает с паролем!",
-                        "Confirmation does not match the password!", 6
+                        "Confirmation does not match the password!", 6, self.get_taskbar
                     )
                 )
             return new_password
@@ -63,14 +62,16 @@ class Settings(Authentication, Widgets):
     def edit_language(self, data):
         if data == "русский" or data == "russian" or data == "английский" or data == "english":
             self.console_color.input(
-                self.get_message_handler("Изменения сохранены!", "Changes saved!", 6)
+                self.get_message_handler(
+                    "Изменения сохранены!", "Changes saved!", 6, self.get_taskbar
+                )
             )
             return data
         else:
             self.console_color.input(
                 self.get_message_handler(
                     "Введите название языка буквами — русский или английский...",
-                    "Enter the name of the language in letters — russian or english...", 6
+                    "Enter the name of the language in letters — russian or english...", 6, self.get_taskbar
                 )
             )
 
@@ -82,13 +83,13 @@ class Settings(Authentication, Widgets):
             data = self.console_color.input(
                 self.get_message_handler(
                     f"Выберите цвет номер {counter + 1}... Красный, зелёный, синий, белый, жёлтый, сиреневый: ",
-                    f"Change color number {counter}... Red, green, blue, white, yellow, purple: ", 6
+                    f"Change color number {counter}... Red, green, blue, white, yellow, purple: ", 6, self.get_taskbar
                 )
             )
             if data == '':
                 return self.console_color.input(
                     self.get_message_handler(
-                        "Неверная команда!", "Wrong command!", 6
+                        "Неверная команда!", "Wrong command!", 6, self.get_taskbar
                     )
                 )
             color_list.append(f'[{self.verify_color(data)}]')
@@ -99,24 +100,23 @@ class Settings(Authentication, Widgets):
                 if counter == 3:
                     self.console_color.input(
                         self.get_message_handler(
-                            "Изменения сохранены!", "Changes saved!", 6
+                            "Изменения сохранены!", "Changes saved!", 6, self.get_taskbar
                         )
                     )
                     return color_list
             else:
                 return self.console_color.input(
                     self.get_message_handler(
-                        "Неверная команда!", "Wrong command!", 6
+                        "Неверная команда!", "Wrong command!", 6, self.get_taskbar
                     )
                 )
 
     def edit_window_mode(self):
         while True:
-            self.get_taskbar()
             res = self.console_color.input(
                 self.get_message_handler(
                     "Выберите \"Оконный режим\" или \"Полный экран\": ",
-                    "Select \"Window Mode\" or \"Full Screen\": ", 0
+                    "Select \"Window Mode\" or \"Full Screen\": ", 0, self.get_taskbar
                 )
             )
             self.verify_void(res, "Неверная команда!", "Wrong command!", 0)
@@ -126,31 +126,29 @@ class Settings(Authentication, Widgets):
                 press_and_release('alt+enter')
                 self.console_color.input(
                     self.get_message_handler(
-                        "Изменения сохранены!", "Changes saved!", 6
+                        "Изменения сохранены!", "Changes saved!", 6, self.get_taskbar
                     )
                 )
                 return res, press_and_release('alt+enter')
             else:
                 return self.console_color.input(
                     self.get_message_handler(
-                        "Неверная команда!", "Wrong command!", 6
+                        "Неверная команда!", "Wrong command!", 6, self.get_taskbar
                     )
                 )
 
     def edit_weather_key(self):
         while True:
-            self.get_taskbar()
             weather_key = self.console_color.input(
                 self.get_message_handler(
                     "Введите ключ погоды (https://openweathermap.org/): ",
-                    "Enter weather key (https://openweathermap.org/): ", 0
+                    "Enter weather key (https://openweathermap.org/): ", 0, self.get_taskbar
                 )
             )
             self.verify_void(weather_key, "Неверная команда!", "Wrong command!", 0)
-            self.get_taskbar()
             self.console_color.input(
                 self.get_message_handler(
-                    "Изменения сохранены!", "Changes saved!", 6
+                    "Изменения сохранены!", "Changes saved!", 6, self.get_taskbar
                 )
             )
             return weather_key
@@ -158,11 +156,10 @@ class Settings(Authentication, Widgets):
     def edit_transparency(self):
         while True:
             try:
-                self.get_taskbar()
                 level = self.console_color.input(
                     self.get_message_handler(
                         "Уровень прозрачности терминала (1, 2, 3, 4, 5, 6): ",
-                        "Terminal transparency level (1, 2, 3, 4, 5, 6): ", 0
+                        "Terminal transparency level (1, 2, 3, 4, 5, 6): ", 0, self.get_taskbar
                     )
                 )
                 self.verify_void(int(level), "Неверная команда!", "Wrong command!", 0)
@@ -171,18 +168,18 @@ class Settings(Authentication, Widgets):
             except ValueError:
                 return self.console_color.input(
                     self.get_message_handler(
-                        "Неверная команда!", "Wrong command!", 6
+                        "Неверная команда!", "Wrong command!", 6, self.get_taskbar
                     )
                 )
 
     def get_command(self):
         while True:
-            self.get_taskbar()
             self.get_coordinates(self.middle_width - 6, self.middle_height, self.middle_width, self.middle_height)
             self.console_color.print(
                 self.get_message_handler(
                     "Имя, город, логин, пароль, язык, цвет, режим экрана, прозрачность, погода",
-                    "Name, city, login, password, language, color, window mode, transparency, weather", 0
+                    "Name, city, login, password, language, color, window mode, transparency, weather",
+                    0, self.get_taskbar
                 )
             )
             cmd = self.get_enter_action("Введите действие: ", "Enter action: ")
@@ -195,7 +192,7 @@ class Settings(Authentication, Widgets):
                         self.edit_name_city_login(
                             self.console_color.input(
                                 self.get_message_handler(
-                                    "Введите новое имя: ", "Enter new username: ", 6
+                                    "Введите новое имя: ", "Enter new username: ", 6, self.get_taskbar
                                 )
                             ), 2, 11,
                             "Имя не должно быть меньше 2-х или больше 11-ти символов!",
@@ -209,7 +206,7 @@ class Settings(Authentication, Widgets):
                         self.edit_name_city_login(
                             self.console_color.input(
                                 self.get_message_handler(
-                                    "Обновите Ваш город: ", "Change your city: ", 6
+                                    "Обновите Ваш город: ", "Change your city: ", 6, self.get_taskbar
                                 )
                             ), 2, 100000,
                             "Название города не может быть меньше 2 символов!",
@@ -224,7 +221,7 @@ class Settings(Authentication, Widgets):
                         self.edit_name_city_login(
                             self.console_color.input(
                                 self.get_message_handler(
-                                    "Придумайте логин", "Create a login", 6
+                                    "Придумайте логин", "Create a login", 6, self.get_taskbar
                                 )
                             ), 2, 15,
                             "Логин не может быть меньше 2 или больше 15 символов!",
@@ -242,7 +239,7 @@ class Settings(Authentication, Widgets):
                         self.console_color.input(
                             self.get_message_handler(
                                 "Выберите язык — русский или английский: ",
-                                "Select a language — russian or english: ", 6
+                                "Select a language — russian or english: ", 6, self.get_taskbar
                             ).lower()
                         )
                     )
@@ -264,5 +261,5 @@ class Settings(Authentication, Widgets):
                     break
                 else:
                     self.console_color.print(
-                        self.get_message_handler("Неверная команда!", "Wrong command!", 0)
+                        self.get_message_handler("Неверная команда!", "Wrong command!", 0, self.get_taskbar)
                     )

@@ -12,10 +12,9 @@ from matrix import Matrix
 class Commands(Settings, ClockWork, Images, Widgets, Matrix):
     def get_programs_commands(self):
         while True:
-            self.get_taskbar()
             self.console_color.print(
                 self.get_message_handler(
-                    "Контакты, пароли, кнб", "Contacts, passwords, rps", 0
+                    "Контакты, пароли, кнб", "Contacts, passwords, rps", 0, self.get_taskbar
                 )
             )
             cmd = self.get_enter_action("Введите действие: ", "Enter action: ")
@@ -24,9 +23,8 @@ class Commands(Settings, ClockWork, Images, Widgets, Matrix):
             elif cmd == '':
                 break
             else:
-                self.get_taskbar()
                 self.console_color.print(
-                    self.get_message_handler("Неверная команда!", "Wrong command!", 0)
+                    self.get_message_handler("Неверная команда!", "Wrong command!", 0, self.get_taskbar)
                 )
 
     def get_main_commands(self):
@@ -39,6 +37,7 @@ class Commands(Settings, ClockWork, Images, Widgets, Matrix):
             startfile(self.neon)
             exit()
         elif cmd.lower() == 'опции' or cmd.lower() == 'о' or cmd.lower() == 'settings' or cmd.lower() == 's':
+            self.get_settings()
             self.get_command()
         elif cmd.lower() == 'программы' or cmd.lower() == 'п' or cmd.lower() == 'programs' or cmd.lower() == 'p':
             self.get_programs_commands()
@@ -56,10 +55,16 @@ class Commands(Settings, ClockWork, Images, Widgets, Matrix):
             input()
             sleep(0.3)
         elif cmd == '':
-            self.get_taskbar()
-            self.console_color.print(self.get_message_handler("Вы ничего не ответили!", "You didn't answer!", 0))
+            self.console_color.print(
+                self.get_message_handler(
+                    "Вы ничего не ответили!", "You didn't answer!", 0, self.get_taskbar
+                )
+            )
             self.get_enter_action("Нажмите действие для возврата...", "Press to return...")
         else:
-            self.get_taskbar()
-            self.console_color.print(self.get_message_handler("Неверная команда!", "Wrong command!", 0))
+            self.console_color.print(
+                self.get_message_handler(
+                    "Неверная команда!", "Wrong command!", 0, self.get_taskbar
+                )
+            )
             self.get_enter_action("Нажмите действие для возврата...", "Press to return...")
