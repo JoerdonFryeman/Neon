@@ -27,28 +27,26 @@ class Settings(Authentication, Widgets):
 
     def edit_password(self):
         while True:
-            new_password = getpass(
-                self.console_color.print(
-                    self.get_message_handler(
-                        "Введите новый пароль (ввод не отображается...)",
-                        "Enter the new password (input not displayed...)", 6, self.get_taskbar()
-                    )
+            self.console_color.print(
+                self.get_message_handler(
+                    "Введите новый пароль (ввод не отображается...)",
+                    "Enter the new password (input not displayed...)", 6, self.get_taskbar()
                 )
             )
+            new_password = getpass('')
             self.verify_void(new_password, "Неверная команда!", "Wrong command!", 6)
             self.verify_length(
                 new_password, 7, 100000,
                 "Пароль не может быть меньше 7-ми символов!",
                 "Password must not be less than 7 letters!", 6
             )
-            new_password_retry = getpass(
-                self.console_color.print(
-                    self.get_message_handler(
-                        "Повторите пароль (ввод не отображается...)",
-                        "Repeat the password (input not displayed...)", 6, self.get_taskbar()
-                    )
+            self.console_color.print(
+                self.get_message_handler(
+                    "Повторите пароль (ввод не отображается...)",
+                    "Repeat the password (input not displayed...)", 6, self.get_taskbar()
                 )
             )
+            new_password_retry = getpass('')
             if new_password != new_password_retry:
                 self.get_coordinates(self.middle_width - 6, self.middle_height, self.middle_width, self.middle_height)
                 return self.console_color.input(
@@ -60,6 +58,7 @@ class Settings(Authentication, Widgets):
             return new_password
 
     def edit_language(self, data):
+        self.verify_void(data, "Неверная команда!", "Wrong command!", 6)
         if data == "русский" or data == "russian" or data == "английский" or data == "english":
             self.console_color.input(
                 self.get_message_handler(
@@ -86,12 +85,7 @@ class Settings(Authentication, Widgets):
                     f"Change color number {counter}... Red, green, blue, white, yellow, purple: ", 6, self.get_taskbar()
                 )
             )
-            if data == '':
-                return self.console_color.input(
-                    self.get_message_handler(
-                        "Неверная команда!", "Wrong command!", 6, self.get_taskbar()
-                    )
-                )
+            self.verify_void(data, "Неверная команда!", "Wrong command!", 6)
             color_list.append(f'[{self.verify_color(data)}]')
             if self.verify_color(data) == 'red' or self.verify_color(data) == 'green' or \
                     self.verify_color(data) == 'bold blue' or self.verify_color(data) == 'yellow' or \
@@ -231,35 +225,54 @@ class Settings(Authentication, Widgets):
                         break
                     break
                 elif cmd.lower() == "пароль" or cmd.lower() == "password" or cmd.lower() == "п" or cmd.lower() == "p":
-                    self.get_authentication()
-                    self.edit_password()
+                    try:
+                        self.get_authentication()
+                        self.edit_password()
+                    except ValueError:
+                        break
                     break
                 elif cmd.lower() == "язык" or cmd.lower() == "language" or cmd.lower() == "л" or cmd.lower() == "l":
-                    self.edit_language(
-                        self.console_color.input(
-                            self.get_message_handler(
-                                "Выберите язык — русский или английский: ",
-                                "Select a language — russian or english: ", 6, self.get_taskbar()
-                            ).lower()
+                    try:
+                        self.edit_language(
+                            self.console_color.input(
+                                self.get_message_handler(
+                                    "Выберите язык — русский или английский: ",
+                                    "Select a language — russian or english: ", 6, self.get_taskbar()
+                                ).lower()
+                            )
                         )
-                    )
+                    except ValueError:
+                        break
                     break
                 elif cmd.lower() == "цвет" or cmd.lower() == "color" or cmd.lower() == "ц" or cmd.lower() == "co":
-                    self.edit_color()
+                    try:
+                        self.edit_color()
+                    except ValueError:
+                        break
                     break
                 elif cmd.lower() == "экрана" or cmd.lower() == "window" or cmd.lower() == "э" or cmd.lower() == "w":
-                    self.edit_window_mode()
+                    try:
+                        self.edit_window_mode()
+                    except ValueError:
+                        break
                     break
                 elif cmd.lower() == "погода" or cmd.lower() == "weather" or cmd.lower() == "по" or cmd.lower() == "we":
-                    self.edit_weather_key()
+                    try:
+                        self.edit_weather_key()
+                    except ValueError:
+                        break
                     break
                 elif (
                         cmd.lower() == "прозрачность" or cmd.lower() == "transparency"
                         or cmd.lower() == "пр" or cmd.lower() == "t"
                 ):
-                    self.edit_transparency()
+                    try:
+                        self.edit_transparency()
+                    except ValueError:
+                        break
                     break
                 else:
                     self.console_color.print(
                         self.get_message_handler("Неверная команда!", "Wrong command!", 0, self.get_taskbar())
                     )
+                    break

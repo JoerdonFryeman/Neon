@@ -12,7 +12,6 @@ class Authentication(Widgets):
 
     def get_authentication(self):
         while True:
-            sys(self.get_system_command())
             self.console_color.print(
                 self.get_message_handler(
                     "Введите логин (ввод не отображается)",
@@ -22,7 +21,6 @@ class Authentication(Widgets):
             login = getpass('')
             if login != '':
                 if login == self.get_user_data(self.login):
-                    sys(self.get_system_command())
                     self.console_color.print(
                         self.get_message_handler(
                             "Введите пароль (ввод не отображается)",

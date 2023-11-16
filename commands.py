@@ -38,6 +38,7 @@ class Commands(Settings, ClockWork, Images, Widgets, Matrix):
             exit()
         elif cmd.lower() == 'опции' or cmd.lower() == 'о' or cmd.lower() == 'settings' or cmd.lower() == 's':
             self.get_settings()
+            input()
             self.get_command()
         elif cmd.lower() == 'программы' or cmd.lower() == 'п' or cmd.lower() == 'programs' or cmd.lower() == 'p':
             self.get_programs_commands()
