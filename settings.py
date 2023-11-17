@@ -47,11 +47,7 @@ class Settings(Authentication, Widgets):
                     self.edit_transparency()
                     break
                 else:
-                    self.console_color.print(
-                        self.get_message_handler(
-                            self.get_taskbar(), 0, "Неверная команда!", "Wrong command!"
-                        )
-                    )
+                    self.get_invalid_input_message()
                     self.get_enter_action("Нажмите действие для возврата...", "Press to return...")
                     break
 
@@ -62,19 +58,16 @@ class Settings(Authentication, Widgets):
                     self.get_taskbar(), 0, "Введите новое имя: ", "Enter new username: "
                 )
             )
-            if self.verify_void_data(name, "Нажмите действие для возврата...", "Press to return..."):
+            if self.verify_void(name, "Нажмите действие для возврата...", "Press to return..."):
                 break
-            if self.verify_length_data(
-                    name, "Имя не должно быть меньше 2-х или больше 11-ти символов!",
+            if self.verify_length(
+                    name, 2, 11, 0,
+                    "Имя не должно быть меньше 2-х или больше 11-ти символов!",
                     "The name must not be less than 2 or more than 11 letters!",
                     "Нажмите ввод для продолжения...", "Press to continue..."
             ):
                 break
-            self.console_color.input(
-                self.get_message_handler(
-                    self.get_taskbar(), 0, "Изменения сохранены!", "Changes saved!"
-                )
-            )
+            self.get_changes_saved_message()
             return name
 
     def edit_city(self):
@@ -84,42 +77,36 @@ class Settings(Authentication, Widgets):
                     self.get_taskbar(), 0, "Обновите Ваш город: ", "Change your city: "
                 )
             )
-            if self.verify_void_data(city, "Нажмите действие для возврата...", "Press to return..."):
+            if self.verify_void(city, "Нажмите действие для возврата...", "Press to return..."):
                 break
-            if self.verify_length_data(
-                    city, "Название города не может быть меньше 2 символов!",
+            if self.verify_length(
+                    city, 2, 10000, 0,
+                    "Название города не может быть меньше 2-х символов!",
                     "The name of the city must not be less than 2 letters!",
                     "Нажмите ввод для продолжения...", "Press to continue..."
 
             ):
                 break
-            self.console_color.input(
-                self.get_message_handler(
-                    self.get_taskbar(), 0, "Изменения сохранены!", "Changes saved!"
-                )
-            )
+            self.get_changes_saved_message()
             return city
 
     def edit_login(self):
         while True:
             login = self.console_color.input(
                 self.get_message_handler(
-                    self.get_taskbar(), 0, "Придумайте логин", "Create a login"
+                    self.get_taskbar(), 0, "Придумайте логин: ", "Create a login: "
                 )
             )
-            if self.verify_void_data(login, "Нажмите действие для возврата...", "Press to return..."):
+            if self.verify_void(login, "Нажмите действие для возврата...", "Press to return..."):
                 break
-            if self.verify_length_data(
-                    login, "Логин не может быть меньше 2 или больше 15 символов!",
+            if self.verify_length(
+                    login, 2, 15, 0,
+                    "Логин не может быть меньше 2-х или больше 15-ти символов!",
                     "Login must not be less than 2 or more than 15 letters!",
                     "Нажмите ввод для продолжения...", "Press to continue..."
             ):
                 break
-            self.console_color.input(
-                self.get_message_handler(
-                    self.get_taskbar(), 0, "Изменения сохранены!", "Changes saved!"
-                )
-            )
+            self.get_changes_saved_message()
             return login
 
     def edit_password(self):

@@ -343,32 +343,43 @@ class Widgets(System, Matrix):
         else:
             return self.console_color.input(self.first_color + language_two)
 
-    def verify_length(self, data, function, length_value_one, length_value_two, width_value, mess_first, mess_second):
-        assert isinstance(function, object)
-        if len(data) < length_value_one or len(data) > length_value_two:
-            self.console_color.print(self.get_message_handler(function, width_value, mess_first, mess_second))
-            raise ValueError
-
-    def verify_void(self, data, function, width_value, mess_first, mess_second):
-        assert isinstance(function, object)
-        if data == '':
-            self.console_color.print(self.get_message_handler(function, width_value, mess_first, mess_second))
-            raise ValueError
-
-    def verify_void_data(self, data, mess_first, mess_second):
+    def verify_void(self, data, mess_first, mess_second):
         try:
-            self.verify_void(
-                data, self.get_taskbar(), 0, "Вы ничего не ответили!", "You didn't answer!"
-            )
+            if data == '':
+                self.console_color.print(
+                    self.get_message_handler(
+                        self.get_taskbar(), 0,
+                        "Вы ничего не ответили!", "You didn't answer!"
+                    )
+                )
+                raise ValueError
         except ValueError:
             self.get_enter_action(mess_first, mess_second)
             return True
 
-    def verify_length_data(self, data, mess_first, mess_second, mess_third, mess_fourth):
+    def verify_length(
+            self, data, length_one, length_two, width_value, mess_first, mess_second, mess_third, mess_fourth
+    ):
         try:
-            self.verify_length(
-                data, self.get_taskbar(), 2, 11, 0, mess_first, mess_second
-            )
+            if len(data) < length_one or len(data) > length_two:
+                self.console_color.print(
+                    self.get_message_handler(self.get_taskbar(), width_value, mess_first, mess_second)
+                )
+                raise ValueError
         except ValueError:
             self.get_enter_action(mess_third, mess_fourth)
             return True
+
+    def get_invalid_input_message(self):
+        self.console_color.print(
+            self.get_message_handler(
+                self.get_taskbar(), 0, "Неверная команда!", "Wrong command!"
+            )
+        )
+
+    def get_changes_saved_message(self):
+        self.console_color.input(
+            self.get_message_handler(
+                self.get_taskbar(), 0, "Изменения сохранены!", "Changes saved!"
+            )
+        )
