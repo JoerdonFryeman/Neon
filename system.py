@@ -64,6 +64,14 @@ class System(Files):
             width_and_height_coord = goto(wdt_full, hgt_full)
             return width_and_height_coord
 
+    def change_language(self, language_one, language_two):
+        if self.get_user_data(self.language) == 'russian' or self.get_user_data(self.language) == 'русский':
+            return language_one
+        elif self.get_user_data(self.language) == 'english' or self.get_user_data(self.language) == 'английский':
+            return language_two
+        else:
+            return language_two
+
     def get_symbol_resolution(self, hd, full_hd):
         if self.width < 237 and self.height < 66:
             value = hd
@@ -99,20 +107,3 @@ class System(Files):
         if number == 6:
             self.press_symbol(6)
         release('ctrl+shift')
-
-    def change_language(self, language_one, language_two):
-        if self.get_user_data(self.language) == 'russian' or self.get_user_data(self.language) == 'русский':
-            return language_one
-        elif self.get_user_data(self.language) == 'english' or self.get_user_data(self.language) == 'английский':
-            return language_two
-        else:
-            return language_two
-
-    def get_enter_action(self, language_one, language_two):
-        self.get_coordinates(self.under_height, self.under_width, self.under_height, self.under_width + 1)
-        if self.get_user_data(self.language) == 'russian' or self.get_user_data(self.language) == 'русский':
-            return self.console_color.input(self.first_color + language_one)
-        elif self.get_user_data(self.language) == 'english' or self.get_user_data(self.language) == 'английский':
-            return self.console_color.input(self.first_color + language_two)
-        else:
-            return self.console_color.input(self.first_color + language_two)

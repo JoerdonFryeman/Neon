@@ -327,19 +327,48 @@ class Widgets(System, Matrix):
     def get_month_calendar():
         return f'{month(int(f"{datetime.now():%Y}"), int(f"{datetime.now():%m}"), 3, 2)}'
 
-    def get_message_handler(self, language_one, language_two, width_value, function):
+    def get_message_handler(self, function, width_value, language_one, language_two):
         assert isinstance(function, object)
         self.get_coordinates(
             self.middle_width - width_value, self.middle_height, self._middle_width, self.middle_height
         )
         return self.first_color + self.change_language(language_one, language_two)
 
-    def verify_length(self, data, value_one, value_two, mess_first, mess_second, width_value):
-        if len(data) < value_one or len(data) > value_two:
-            self.console_color.input(self.get_message_handler(mess_first, mess_second, width_value, self.get_taskbar()))
-        raise ValueError
+    def get_enter_action(self, language_one, language_two):
+        self.get_coordinates(self.under_height, self.under_width, self.under_height, self.under_width + 1)
+        if self.get_user_data(self.language) == 'russian' or self.get_user_data(self.language) == 'русский':
+            return self.console_color.input(self.first_color + language_one)
+        elif self.get_user_data(self.language) == 'english' or self.get_user_data(self.language) == 'английский':
+            return self.console_color.input(self.first_color + language_two)
+        else:
+            return self.console_color.input(self.first_color + language_two)
 
-    def verify_void(self, data, mess_first, mess_second, width_value):
+    def verify_length(self, data, function, length_value_one, length_value_two, width_value, mess_first, mess_second):
+        assert isinstance(function, object)
+        if len(data) < length_value_one or len(data) > length_value_two:
+            self.console_color.print(self.get_message_handler(function, width_value, mess_first, mess_second))
+            raise ValueError
+
+    def verify_void(self, data, function, width_value, mess_first, mess_second):
+        assert isinstance(function, object)
         if data == '':
-            self.console_color.input(self.get_message_handler(mess_first, mess_second, width_value, self.get_taskbar()))
-        raise ValueError
+            self.console_color.print(self.get_message_handler(function, width_value, mess_first, mess_second))
+            raise ValueError
+
+    def verify_void_data(self, data, mess_first, mess_second):
+        try:
+            self.verify_void(
+                data, self.get_taskbar(), 0, "Вы ничего не ответили!", "You didn't answer!"
+            )
+        except ValueError:
+            self.get_enter_action(mess_first, mess_second)
+            return True
+
+    def verify_length_data(self, data, mess_first, mess_second, mess_third, mess_fourth):
+        try:
+            self.verify_length(
+                data, self.get_taskbar(), 2, 11, 0, mess_first, mess_second
+            )
+        except ValueError:
+            self.get_enter_action(mess_third, mess_fourth)
+            return True

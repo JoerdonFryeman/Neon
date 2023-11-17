@@ -22,8 +22,9 @@ class Application(Commands):
         self.get_authentication()
         self.console_color.print(
             self.get_message_handler(
+                sys(self.get_system_command()), 0,
                 f"Добро пожаловать, {self.get_user_data(self.name)}!",
-                f"Welcome, {self.get_user_data(self.name)}!", 0, sys(self.get_system_command())
+                f"Welcome, {self.get_user_data(self.name)}!"
             )
         ), sleep(2)
         self.get_home_screen()
