@@ -9,7 +9,7 @@ class Settings(Authentication, Widgets):
         while True:
             self.console_color.print(
                 self.get_message_handler(
-                    self.get_taskbar(), 6,
+                    self.get_taskbar(),
                     "Имя, город, логин, пароль, язык, цвет, режим экрана, прозрачность, погода, установить ТПИ",
                     "Name, city, login, password, language, color, window mode, transparency, weather, install TUI"
                 )
@@ -29,6 +29,7 @@ class Settings(Authentication, Widgets):
                     self.edit_login()
                     break
                 if cmd.lower() == 'пароль' or cmd.lower() == 'password' or cmd.lower() == 'п' or cmd.lower() == 'p':
+                    self.get_authentication()
                     self.edit_password()
                     break
                 if cmd.lower() == 'язык' or cmd.lower() == 'language' or cmd.lower() == 'я' or cmd.lower() == 'la':
@@ -55,13 +56,13 @@ class Settings(Authentication, Widgets):
         while True:
             name = self.console_color.input(
                 self.get_message_handler(
-                    self.get_taskbar(), 0, "Введите новое имя: ", "Enter new username: "
+                    self.get_taskbar(), "Введите новое имя: ", "Enter new username: "
                 )
             )
             if self.verify_void(name, "Нажмите действие для возврата...", "Press to return..."):
                 break
             if self.verify_length(
-                    name, 2, 11, 0,
+                    name, 2, 11,
                     "Имя не должно быть меньше 2-х или больше 11-ти символов!",
                     "The name must not be less than 2 or more than 11 letters!",
                     "Нажмите ввод для продолжения...", "Press to continue..."
@@ -74,13 +75,13 @@ class Settings(Authentication, Widgets):
         while True:
             city = self.console_color.input(
                 self.get_message_handler(
-                    self.get_taskbar(), 0, "Обновите Ваш город: ", "Change your city: "
+                    self.get_taskbar(), "Обновите Ваш город: ", "Change your city: "
                 )
             )
             if self.verify_void(city, "Нажмите действие для возврата...", "Press to return..."):
                 break
             if self.verify_length(
-                    city, 2, 10000, 0,
+                    city, 2, 10000,
                     "Название города не может быть меньше 2-х символов!",
                     "The name of the city must not be less than 2 letters!",
                     "Нажмите ввод для продолжения...", "Press to continue..."
@@ -94,13 +95,13 @@ class Settings(Authentication, Widgets):
         while True:
             login = self.console_color.input(
                 self.get_message_handler(
-                    self.get_taskbar(), 0, "Придумайте логин: ", "Create a login: "
+                    self.get_taskbar(), "Придумайте логин: ", "Create a login: "
                 )
             )
             if self.verify_void(login, "Нажмите действие для возврата...", "Press to return..."):
                 break
             if self.verify_length(
-                    login, 2, 15, 0,
+                    login, 2, 15,
                     "Логин не может быть меньше 2-х или больше 15-ти символов!",
                     "Login must not be less than 2 or more than 15 letters!",
                     "Нажмите ввод для продолжения...", "Press to continue..."
@@ -110,10 +111,64 @@ class Settings(Authentication, Widgets):
             return login
 
     def edit_password(self):
-        pass
+        while True:
+            self.console_color.print(
+                self.get_message_handler(
+                    self.get_taskbar(),
+                    "Введите новый пароль (ввод не отображается...)",
+                    "Enter the new password (input not displayed...)"
+                )
+            )
+            new_password = getpass('')
+            if self.verify_void(new_password, "Нажмите действие для возврата...", "Press to return..."):
+                break
+            if self.verify_length(
+                    new_password, 7, 10000,
+                    "Пароль не может быть меньше 7-ми символов!",
+                    "Password must not be less than 7 letters!",
+                    "Нажмите ввод для продолжения...", "Press to continue..."
+            ):
+                break
+            self.console_color.print(
+                self.get_message_handler(
+                    self.get_taskbar(),
+                    "Повторите пароль (ввод не отображается...)",
+                    "Repeat the password (input not displayed...)"
+                )
+            )
+            new_password_retry = getpass('')
+            if new_password != new_password_retry:
+                self.console_color.input(
+                    self.get_message_handler(
+                        self.get_taskbar(),
+                        "Подтверждение не совпадает с паролем!",
+                        "Confirmation does not match the password!"
+                    )
+                )
+                break
+            return new_password
 
     def edit_language(self):
-        pass
+        while True:
+            language = self.console_color.input(
+                self.get_message_handler(
+                    self.get_taskbar(),
+                    "Выберите язык — русский или английский: ",
+                    "Select a language — russian or english: "
+                )
+            )
+            if self.verify_void(language, "Нажмите действие для возврата...", "Press to return..."):
+                break
+            if language == "русский" or language == "russian" or language == "английский" or language == "english":
+                self.get_changes_saved_message()
+                return language
+            self.console_color.input(
+                self.get_message_handler(
+                    self.get_taskbar(),
+                    "Введите название языка буквами — русский или английский...",
+                    "Enter the name of the language in letters — russian or english..."
+                )
+            )
 
     @staticmethod
     def verify_color(color):

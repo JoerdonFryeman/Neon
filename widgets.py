@@ -203,9 +203,7 @@ class Widgets(System, Matrix):
             f'{self.change_language(", чувствуется как: ", ", feels like: ")}'
             f'{self.second_color}{self.temp["feels_like"]}°'
         )
-        self.get_coordinates(
-            2, 5, 2, int(self.height // self.get_symbol_resolution(4.04, 4.07))
-        )
+        self.get_coordinates(2, 5, 2, int(self.height // self.get_symbol_resolution(4.04, 4.07)))
         self.console_color.print(
             f'{self.first_color}{self.change_language("Сила ветра: ", "Wind speed: ")}'
             f'{self.second_color}{self.ow.wind()["speed"]}{self.first_color}'
@@ -246,9 +244,7 @@ class Widgets(System, Matrix):
 
     def get_detailed_weather(self, grad_first, grad_second, status):
         self.get_detailed_status()
-        self.get_coordinates(
-            2, 6, 2, int(self.height // self.get_symbol_resolution(4.04, 4.01))
-        )
+        self.get_coordinates(2, 6, 2, int(self.height // self.get_symbol_resolution(4.04, 4.01)))
         if int(grad_first) <= self.temp['feels_like'] <= int(grad_second):
             self.console_color.print(f"{self.first_color}{status}, {self.ow.detailed_status}")
 
@@ -302,9 +298,7 @@ class Widgets(System, Matrix):
             )
 
     def get_battery(self):
-        self.get_coordinates(
-            2, 24, int(self.width // self.width + 1), int(self.height - self.height // 4.27)
-        )
+        self.get_coordinates(2, 24, int(self.width // self.width + 1), int(self.height - self.height // 4.27))
         try:
             self.console_color.print(
                 self.second_color + self.change_language(
@@ -327,11 +321,9 @@ class Widgets(System, Matrix):
     def get_month_calendar():
         return f'{month(int(f"{datetime.now():%Y}"), int(f"{datetime.now():%m}"), 3, 2)}'
 
-    def get_message_handler(self, function, width_value, language_one, language_two):
+    def get_message_handler(self, function, language_one, language_two):
         assert isinstance(function, object)
-        self.get_coordinates(
-            self.middle_width - width_value, self.middle_height, self._middle_width, self.middle_height
-        )
+        self.get_coordinates(self.middle_width, self.middle_height, self._middle_width, self.middle_height)
         return self.first_color + self.change_language(language_one, language_two)
 
     def get_enter_action(self, language_one, language_two):
@@ -347,24 +339,17 @@ class Widgets(System, Matrix):
         try:
             if data == '':
                 self.console_color.print(
-                    self.get_message_handler(
-                        self.get_taskbar(), 0,
-                        "Вы ничего не ответили!", "You didn't answer!"
-                    )
+                    self.get_message_handler(self.get_taskbar(), "Вы ничего не ответили!", "You didn't answer!")
                 )
                 raise ValueError
         except ValueError:
             self.get_enter_action(mess_first, mess_second)
             return True
 
-    def verify_length(
-            self, data, length_one, length_two, width_value, mess_first, mess_second, mess_third, mess_fourth
-    ):
+    def verify_length(self, data, length_one, length_two, mess_first, mess_second, mess_third, mess_fourth):
         try:
             if len(data) < length_one or len(data) > length_two:
-                self.console_color.print(
-                    self.get_message_handler(self.get_taskbar(), width_value, mess_first, mess_second)
-                )
+                self.console_color.print(self.get_message_handler(self.get_taskbar(), mess_first, mess_second))
                 raise ValueError
         except ValueError:
             self.get_enter_action(mess_third, mess_fourth)
@@ -372,14 +357,10 @@ class Widgets(System, Matrix):
 
     def get_invalid_input_message(self):
         self.console_color.print(
-            self.get_message_handler(
-                self.get_taskbar(), 0, "Неверная команда!", "Wrong command!"
-            )
+            self.get_message_handler(self.get_taskbar(), "Неверная команда!", "Wrong command!")
         )
 
     def get_changes_saved_message(self):
         self.console_color.input(
-            self.get_message_handler(
-                self.get_taskbar(), 0, "Изменения сохранены!", "Changes saved!"
-            )
+            self.get_message_handler(self.get_taskbar(), "Изменения сохранены!", "Changes saved!")
         )

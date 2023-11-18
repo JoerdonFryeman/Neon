@@ -6,7 +6,7 @@ from widgets import Widgets
 class Authentication(Widgets):
     def get_invalid_answer(self, language_one, language_two):
         self.console_color.print(
-            self.get_message_handler(sys(self.get_system_command()), 0, language_one, language_two)
+            self.get_message_handler(sys(self.get_system_command()), language_one, language_two)
         )
         self.get_enter_action("Нажмите действие для возврата...", "Press to return...")
 
@@ -14,7 +14,7 @@ class Authentication(Widgets):
         while True:
             self.console_color.print(
                 self.get_message_handler(
-                    sys(self.get_system_command()), 0,
+                    sys(self.get_system_command()),
                     "Введите логин (ввод не отображается)", "Enter login (input isn't displayed)"
                 )
             )
@@ -23,7 +23,7 @@ class Authentication(Widgets):
                 if login == self.get_user_data(self.login):
                     self.console_color.print(
                         self.get_message_handler(
-                            sys(self.get_system_command()), 0,
+                            sys(self.get_system_command()),
                             "Введите пароль (ввод не отображается)", "Enter password (input isn't displayed)"
                         )
                     )

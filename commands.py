@@ -14,7 +14,7 @@ class Commands(Settings, ClockWork, Images, Widgets, Matrix):
         while True:
             self.console_color.print(
                 self.get_message_handler(
-                    self.get_taskbar(), 0, "Контакты, пароли, кнб", "Contacts, passwords, rps"
+                    self.get_taskbar(), "Контакты, пароли, кнб", "Contacts, passwords, rps"
                 )
             )
             cmd = self.get_enter_action("Введите действие: ", "Enter action: ")
@@ -25,7 +25,7 @@ class Commands(Settings, ClockWork, Images, Widgets, Matrix):
             else:
                 self.console_color.print(
                     self.get_message_handler(
-                        self.get_taskbar(), 0, "Неверная команда!", "Wrong command!"
+                        self.get_taskbar(), "Неверная команда!", "Wrong command!"
                     )
                 )
 
@@ -60,14 +60,14 @@ class Commands(Settings, ClockWork, Images, Widgets, Matrix):
         elif cmd == '':
             self.console_color.print(
                 self.get_message_handler(
-                    self.get_taskbar(), 0, "Вы ничего не ответили!", "You didn't answer!"
+                    self.get_taskbar(), "Вы ничего не ответили!", "You didn't answer!"
                 )
             )
             self.get_enter_action("Нажмите действие для возврата...", "Press to return...")
         else:
             self.console_color.print(
                 self.get_message_handler(
-                    self.get_taskbar(), 0, "Неверная команда!", "Wrong command!"
+                    self.get_taskbar(), "Неверная команда!", "Wrong command!"
                 )
             )
             self.get_enter_action("Нажмите действие для возврата...", "Press to return...")
