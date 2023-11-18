@@ -355,7 +355,7 @@ class Widgets(System, Matrix):
             self.get_enter_action(mess_third, mess_fourth)
             return True
 
-    def get_invalid_input_message(self):
+    def get_wrong_command_message(self):
         self.console_color.print(
             self.get_message_handler(self.get_taskbar(), "Неверная команда!", "Wrong command!")
         )
