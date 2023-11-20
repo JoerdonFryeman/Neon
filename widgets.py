@@ -335,32 +335,22 @@ class Widgets(System, Matrix):
         else:
             return self.console_color.input(self.first_color + language_two)
 
-    def verify_void(self, data, mess_first, mess_second):
+    def verify_void(self, data, function, mess_first, mess_second):
         try:
             if data == '':
                 self.console_color.print(
-                    self.get_message_handler(self.get_taskbar(), "Вы ничего не ответили!", "You didn't answer!")
+                    self.get_message_handler(function, "Вы ничего не ответили!", "You didn't answer!")
                 )
                 raise ValueError
         except ValueError:
             self.get_enter_action(mess_first, mess_second)
             return True
 
-    def verify_length(self, data, length_one, length_two, mess_first, mess_second, mess_third, mess_fourth):
+    def verify_length(self, data, function, length_one, length_two, mess_first, mess_second, mess_third, mess_fourth):
         try:
             if len(data) < length_one or len(data) > length_two:
-                self.console_color.print(self.get_message_handler(self.get_taskbar(), mess_first, mess_second))
+                self.console_color.print(self.get_message_handler(function, mess_first, mess_second))
                 raise ValueError
         except ValueError:
             self.get_enter_action(mess_third, mess_fourth)
             return True
-
-    def get_wrong_command_message(self):
-        self.console_color.print(
-            self.get_message_handler(self.get_taskbar(), "Неверная команда!", "Wrong command!")
-        )
-
-    def get_changes_saved_message(self):
-        self.console_color.input(
-            self.get_message_handler(self.get_taskbar(), "Изменения сохранены!", "Changes saved!")
-        )
