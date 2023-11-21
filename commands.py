@@ -4,12 +4,16 @@ from threading import Thread
 from os import system as sys, startfile
 from apps.clock import ClockWork
 from apps.images import Images
+from apps.notes import Notes
+from apps.youtube import YouTubeLoader
 from settings import Settings
 from widgets import Widgets
 from matrix import Matrix
 
 
-class Commands(Settings, ClockWork, Images, Widgets, Matrix):
+class Commands(
+    Settings, ClockWork, Images, Notes, YouTubeLoader, Widgets, Matrix
+):
     def get_programs_commands(self):
         while True:
             self.console_color.print(
@@ -42,6 +46,10 @@ class Commands(Settings, ClockWork, Images, Widgets, Matrix):
             self.get_settings()
             input()
             self.get_command()
+        elif cmd.lower() == 'заметки' or cmd.lower() == 'з' or cmd.lower() == 'notes' or cmd.lower() == 'n':
+            self.open_note()
+        elif cmd.lower() == 'ютьюб' or cmd.lower() == 'ю' or cmd.lower() == 'youtube' or cmd.lower() == 'y':
+            self.download_video()
         elif cmd.lower() == 'программы' or cmd.lower() == 'п' or cmd.lower() == 'programs' or cmd.lower() == 'p':
             self.get_programs_commands()
         elif cmd.lower() == 'матрица' or cmd.lower() == 'matrix' or cmd.lower() == 'м' or cmd.lower() == 'm':

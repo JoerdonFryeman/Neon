@@ -69,6 +69,7 @@ class Settings(Authentication, Widgets):
             )
             if self.verify_void(
                     name, self.get_taskbar(),
+                    "Вы ничего не ответили!", "You didn't answer!",
                     "Нажмите действие для возврата...", "Press to return..."
             ):
                 break
@@ -96,6 +97,7 @@ class Settings(Authentication, Widgets):
             )
             if self.verify_void(
                     city, self.get_taskbar(),
+                    "Вы ничего не ответили!", "You didn't answer!",
                     "Нажмите действие для возврата...", "Press to return..."
             ):
                 break
@@ -124,6 +126,7 @@ class Settings(Authentication, Widgets):
             )
             if self.verify_void(
                     login, self.get_taskbar(),
+                    "Вы ничего не ответили!", "You didn't answer!",
                     "Нажмите действие для возврата...", "Press to return..."
             ):
                 break
@@ -154,6 +157,7 @@ class Settings(Authentication, Widgets):
             new_password = getpass('')
             if self.verify_void(
                     new_password, sys(self.get_system_command()),
+                    "Вы ничего не ответили!", "You didn't answer!",
                     "Нажмите действие для возврата...", "Press to return..."
             ):
                 break
@@ -194,6 +198,7 @@ class Settings(Authentication, Widgets):
             )
             if self.verify_void(
                     language, self.get_taskbar(),
+                    "Вы ничего не ответили!", "You didn't answer!",
                     "Нажмите действие для возврата...", "Press to return..."
             ):
                 break
@@ -238,6 +243,7 @@ class Settings(Authentication, Widgets):
             )
             if self.verify_void(
                     color, self.get_taskbar(),
+                    "Вы ничего не ответили!", "You didn't answer!",
                     "Нажмите действие для возврата...", "Press to return..."
             ):
                 break
@@ -308,7 +314,9 @@ class Settings(Authentication, Widgets):
                 )
             )
             if self.verify_void(
-                    weather_key, self.get_taskbar(), "Нажмите действие для возврата...", "Press to return..."
+                    weather_key, self.get_taskbar(),
+                    "Вы ничего не ответили!", "You didn't answer!",
+                    "Нажмите действие для возврата...", "Press to return..."
             ):
                 break
             self.console_color.print(
@@ -330,6 +338,7 @@ class Settings(Authentication, Widgets):
             )
             if self.verify_void(
                     transparency, self.get_taskbar(),
+                    "Вы ничего не ответили!", "You didn't answer!",
                     "Нажмите действие для возврата...", "Press to return..."
             ):
                 break

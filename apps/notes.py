@@ -3,4 +3,5 @@ from widgets import Widgets
 
 
 class Notes(Widgets):
-    pass
+    def open_note(self):
+        pass
