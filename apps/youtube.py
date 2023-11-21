@@ -1,9 +1,18 @@
+from os import mkdir
 from pytube import YouTube, Playlist, exceptions
 from pytube.helpers import DeferredGeneratorList
 from widgets import Widgets
 
 
 class YouTubeLoader(Widgets):
+    @staticmethod
+    def create_path() -> None:
+        """The function creates a working folder "Download" in case of its absence"""
+        try:
+            mkdir('Download')
+        except FileExistsError:
+            pass
+
     def get_video_links(self) -> list:
         """
         Links of video entering function
@@ -67,6 +76,7 @@ class YouTubeLoader(Widgets):
         The function takes a list of links and downloads the video for each of them
         :return: None
         """
+        self.create_path()
         try:
             for i in self.download_choose_method():
                 youtube = YouTube(i)
