@@ -5,14 +5,6 @@ from widgets import Widgets
 
 
 class YouTubeLoader(Widgets):
-    @staticmethod
-    def create_path() -> None:
-        """The function creates a working folder "Download" in case of its absence"""
-        try:
-            mkdir('Download')
-        except FileExistsError:
-            pass
-
     def get_video_links(self) -> list:
         """
         Links of video entering function
@@ -22,7 +14,9 @@ class YouTubeLoader(Widgets):
         while True:
             link = self.console_color.input(
                 self.get_message_handler(
-                    self.get_taskbar(), "Введи ссылку на видео с YouTube: ", "Enter a link to a YouTube video: "
+                    self.get_taskbar(),
+                    "Введи ссылку на видео с YouTube: ",
+                    "Enter a link to a YouTube video: "
                 )
             )
             if self.verify_void(
@@ -57,7 +51,8 @@ class YouTubeLoader(Widgets):
         video_or_playlist = self.console_color.input(
             self.get_message_handler(
                 self.get_taskbar(),
-                "Скачать отдельные видео или плейлист? ", "Download individual videos or a playlist? "
+                "Скачать отдельные видео или плейлист? ",
+                "Download individual videos or a playlist? "
             )
         )
         if video_or_playlist.lower() == 'видео' or video_or_playlist.lower() == 'в':
@@ -76,15 +71,33 @@ class YouTubeLoader(Widgets):
         The function takes a list of links and downloads the video for each of them
         :return: None
         """
-        self.create_path()
+        try:
+            mkdir('Download')
+        except FileExistsError:
+            pass
         try:
             for i in self.download_choose_method():
                 youtube = YouTube(i)
 
-                print(f'\nИдёт загрузка видео: "{youtube.title}"\n')
+                self.console_color.print(
+                    self.get_message_handler(
+                        self.get_taskbar(),
+                        f"Идёт загрузка видео: {youtube.title}",
+                        f"The video is downloading: {youtube.title}"
+                    )
+                )
                 youtube.streams.get_highest_resolution().download('Download/')
-                print(f"\nАвтор: {youtube.author}\nОписание: {youtube.description}\n")
-                print("\nЗагрузка завершена!\n")
+                self.console_color.print(
+                    self.get_message_handler(
+                        self.get_taskbar(),
+                        f"Автор: {youtube.author}\nОписание: {youtube.description}",
+                        f"Autor: {youtube.author}\nDescription: {youtube.description}"
+                    )
+                )
+                self.get_enter_action(
+                    "Загрузка завершена! Нажмите действие для возврата...",
+                    " Download is done! Press to return..."
+                )
 
         except exceptions.RegexMatchError:
             self.console_color.print(
@@ -96,7 +109,8 @@ class YouTubeLoader(Widgets):
         except exceptions.AgeRestrictedError:
             self.console_color.print(
                 self.get_message_handler(
-                    self.get_taskbar(), "Видос имеет возрастные ограничения!", "The video has an age restriction!"
+                    self.get_taskbar(),
+                    "Видос имеет возрастные ограничения!", "The video has an age restriction!"
                 )
             )
             self.get_enter_action("Нажмите действие для возврата...", "Press to return...")
@@ -112,7 +126,8 @@ class YouTubeLoader(Widgets):
         except exceptions.VideoUnavailable:
             self.console_color.print(
                 self.get_message_handler(
-                    self.get_taskbar(), "Данный видос больше не доступен...", "This vid is no longer available..."
+                    self.get_taskbar(),
+                    "Данный видос больше не доступен...", "This vid is no longer available..."
                 )
             )
             self.get_enter_action("Нажмите действие для возврата...", "Press to return...")
