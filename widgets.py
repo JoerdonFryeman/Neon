@@ -321,10 +321,13 @@ class Widgets(System, Matrix):
     def get_month_calendar():
         return f'{month(int(f"{datetime.now():%Y}"), int(f"{datetime.now():%m}"), 3, 2)}'
 
-    def get_message_handler(self, function, language_one, language_two):
+    def get_message(self, function, mode, language_one, language_two):
         assert isinstance(function, object)
         self.get_coordinates(self.middle_width, self.middle_height, self._middle_width, self.middle_height)
-        return self.first_color + self.change_language(language_one, language_two)
+        if mode == input:
+            return self.console_color.input(self.first_color + self.change_language(language_one, language_two))
+        else:
+            return self.console_color.print(self.first_color + self.change_language(language_one, language_two))
 
     def get_enter_action(self, language_one, language_two):
         self.get_coordinates(self.under_height, self.under_width, self.under_height, self.under_width + 1)
@@ -338,7 +341,7 @@ class Widgets(System, Matrix):
     def verify_void(self, data, function, mess_first, mess_second, mess_third, mess_fourth):
         try:
             if data == '':
-                self.console_color.print(self.get_message_handler(function, mess_first, mess_second))
+                self.get_message(function, print, mess_first, mess_second)
                 raise ValueError
         except ValueError:
             self.get_enter_action(mess_third, mess_fourth)
@@ -347,7 +350,7 @@ class Widgets(System, Matrix):
     def verify_length(self, data, function, length_one, length_two, mess_first, mess_second, mess_third, mess_fourth):
         try:
             if len(data) < length_one or len(data) > length_two:
-                self.console_color.print(self.get_message_handler(function, mess_first, mess_second))
+                self.get_message(function, print, mess_first, mess_second)
                 raise ValueError
         except ValueError:
             self.get_enter_action(mess_third, mess_fourth)

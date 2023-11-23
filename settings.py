@@ -8,12 +8,10 @@ from authentication import Authentication
 class Settings(Authentication, Widgets):
     def get_command(self):
         while True:
-            self.console_color.print(
-                self.get_message_handler(
-                    self.get_taskbar(),
-                    "Имя, город, логин, пароль, язык, цвет, режим экрана, прозрачность, погода",
-                    "Name, city, login, password, language, color, window mode, transparency, weather"
-                )
+            self.get_message(
+                self.get_taskbar(), print,
+                "Имя, город, логин, пароль, язык, цвет, режим экрана, прозрачность, погода",
+                "Name, city, login, password, language, color, window mode, transparency, weather"
             )
             cmd = self.get_enter_action("Введите действие: ", "Enter action: ")
             if cmd == '':
@@ -52,21 +50,13 @@ class Settings(Authentication, Widgets):
                     self.edit_transparency()
                     break
                 else:
-                    self.console_color.print(
-                        self.get_message_handler(
-                            self.get_taskbar(), "Неверная команда!", "Wrong command!"
-                        )
-                    )
+                    self.get_message(self.get_taskbar(), print, "Неверная команда!", "Wrong command!")
                     self.get_enter_action("Нажмите действие для возврата...", "Press to return...")
                     break
 
     def edit_name(self):
         while True:
-            name = self.console_color.input(
-                self.get_message_handler(
-                    self.get_taskbar(), "Введите новое имя: ", "Enter new username: "
-                )
-            )
+            name = self.get_message(self.get_taskbar(), input, "Введите новое имя: ", "Enter new username: ")
             if self.verify_void(
                     name, self.get_taskbar(),
                     "Вы ничего не ответили!", "You didn't answer!",
@@ -80,21 +70,13 @@ class Settings(Authentication, Widgets):
                     "Нажмите ввод для продолжения...", "Press to continue..."
             ):
                 break
-            self.console_color.print(
-                self.get_message_handler(
-                    self.get_taskbar(), "Изменения сохранены!", "Changes saved!"
-                )
-            )
+            self.get_message(self.get_taskbar(), print, "Изменения сохранены!", "Changes saved!")
             self.get_enter_action("Нажмите действие для продолжения...", "Press to continue...")
             return name
 
     def edit_city(self):
         while True:
-            city = self.console_color.input(
-                self.get_message_handler(
-                    self.get_taskbar(), "Обновите Ваш город: ", "Change your city: "
-                )
-            )
+            city = self.get_message(self.get_taskbar(), input, "Обновите Ваш город: ", "Change your city: ")
             if self.verify_void(
                     city, self.get_taskbar(),
                     "Вы ничего не ответили!", "You didn't answer!",
@@ -109,21 +91,13 @@ class Settings(Authentication, Widgets):
 
             ):
                 break
-            self.console_color.print(
-                self.get_message_handler(
-                    self.get_taskbar(), "Изменения сохранены!", "Changes saved!"
-                )
-            )
+            self.get_message(self.get_taskbar(), print, "Изменения сохранены!", "Changes saved!")
             self.get_enter_action("Нажмите действие для продолжения...", "Press to continue...")
             return city
 
     def edit_login(self):
         while True:
-            login = self.console_color.input(
-                self.get_message_handler(
-                    self.get_taskbar(), "Придумайте логин: ", "Create a login: "
-                )
-            )
+            login = self.get_message(self.get_taskbar(), input, "Придумайте логин: ", "Create a login: ")
             if self.verify_void(
                     login, self.get_taskbar(),
                     "Вы ничего не ответили!", "You didn't answer!",
@@ -137,22 +111,15 @@ class Settings(Authentication, Widgets):
                     "Нажмите ввод для продолжения...", "Press to continue..."
             ):
                 break
-            self.console_color.print(
-                self.get_message_handler(
-                    self.get_taskbar(), "Изменения сохранены!", "Changes saved!"
-                )
-            )
+            self.get_message(self.get_taskbar(), print, "Изменения сохранены!", "Changes saved!")
             self.get_enter_action("Нажмите действие для продолжения...", "Press to continue...")
             return login
 
     def edit_password(self):
         while True:
-            self.console_color.print(
-                self.get_message_handler(
-                    sys(self.get_system_command()),
-                    "Введите новый пароль (ввод не отображается...)",
-                    "Enter the new password (input not displayed...)"
-                )
+            self.get_message(
+                self.get_taskbar(), print,
+                "Введите новый пароль (ввод не отображается...)", "Enter the new password (input not displayed...)"
             )
             new_password = getpass('')
             if self.verify_void(
@@ -168,33 +135,24 @@ class Settings(Authentication, Widgets):
                     "Нажмите ввод для продолжения...", "Press to continue..."
             ):
                 break
-            self.console_color.print(
-                self.get_message_handler(
-                    sys(self.get_system_command()),
-                    "Повторите пароль (ввод не отображается...)",
-                    "Repeat the password (input not displayed...)"
-                )
+            self.get_message(
+                self.get_taskbar(), print,
+                "Повторите пароль (ввод не отображается...)", "Repeat the password (input not displayed...)"
             )
             new_password_retry = getpass('')
             if new_password != new_password_retry:
-                self.console_color.input(
-                    self.get_message_handler(
-                        sys(self.get_system_command()),
-                        "Подтверждение не совпадает с паролем!",
-                        "Confirmation does not match the password!"
-                    )
+                self.get_message(
+                    sys(self.get_system_command()), input,
+                    "Подтверждение не совпадает с паролем!", "Confirmation does not match the password!"
                 )
                 break
             return new_password
 
     def edit_language(self):
         while True:
-            language = self.console_color.input(
-                self.get_message_handler(
-                    self.get_taskbar(),
-                    "Выберите язык — русский или английский: ",
-                    "Select a language — russian or english: "
-                )
+            language = self.get_message(
+                self.get_taskbar(), input,
+                "Выберите язык — русский или английский: ", "Select a language — russian or english: "
             )
             if self.verify_void(
                     language, self.get_taskbar(),
@@ -203,19 +161,13 @@ class Settings(Authentication, Widgets):
             ):
                 break
             if language == "русский" or language == "russian" or language == "английский" or language == "english":
-                self.console_color.print(
-                    self.get_message_handler(
-                        self.get_taskbar(), "Изменения сохранены!", "Changes saved!"
-                    )
-                )
+                self.get_message(self.get_taskbar(), print, "Изменения сохранены!", "Changes saved!")
                 self.get_enter_action("Нажмите действие для продолжения...", "Press to continue...")
                 return language
-            self.console_color.input(
-                self.get_message_handler(
-                    self.get_taskbar(),
-                    "Введите название языка буквами — русский или английский...",
-                    "Enter the name of the language in letters — russian or english..."
-                )
+            self.get_message(
+                self.get_taskbar(), input,
+                "Введите название языка буквами — русский или английский...",
+                "Enter the name of the language in letters — russian or english..."
             )
 
     @staticmethod
@@ -234,12 +186,10 @@ class Settings(Authentication, Widgets):
 
         for i in range(3):
             number = counter + 1
-            color = self.console_color.input(
-                self.get_message_handler(
-                    self.get_taskbar(),
-                    f"Выберите цвет номер {number}... Красный, зелёный, синий, белый, жёлтый, сиреневый: ",
-                    f"Change color number {number}... Red, green, blue, white, yellow, purple: "
-                )
+            color = self.get_message(
+                self.get_taskbar(), input,
+                f"Выберите цвет номер {number}... Красный, зелёный, синий, белый, жёлтый, сиреневый: ",
+                f"Change color number {number}... Red, green, blue, white, yellow, purple: "
             )
             if self.verify_void(
                     color, self.get_taskbar(),
@@ -253,65 +203,39 @@ class Settings(Authentication, Widgets):
                     self.verify_color(color) == 'purple' or self.verify_color(color) == 'white':
                 counter += 1
                 if counter == 3:
-                    self.console_color.print(
-                        self.get_message_handler(
-                            self.get_taskbar(),
-                            "Изменения сохранены!", "Changes saved!"
-                        )
-                    )
+                    self.get_message(self.get_taskbar(), print, "Изменения сохранены!", "Changes saved!")
                     self.get_enter_action("Нажмите действие для продолжения...", "Press to continue...")
                     return color_list
-            self.console_color.print(
-                self.get_message_handler(
-                    self.get_taskbar(), "Неверная команда!", "Wrong command!"
-                )
-            )
+            self.get_message(self.get_taskbar(), print, "Неверная команда!", "Wrong command!")
             self.get_enter_action("Нажмите действие для возврата...", "Press to return...")
             break
 
     def edit_window_mode(self):
         while True:
-            res = self.console_color.input(
-                self.get_message_handler(
-                    self.get_taskbar(),
-                    "Выберите \"Оконный режим\" или \"Полный экран\": ",
-                    "Select \"Window Mode\" or \"Full Screen\": "
-                )
+            res = self.get_message(
+                self.get_taskbar(), input,
+                "Выберите \"Оконный режим\" или \"Полный экран\": ", "Select \"Window Mode\" or \"Full Screen\": "
             )
             if res.lower() == "оконный" or res.lower() == "window" or res.lower() == "о" or res.lower() == "w":
-                self.console_color.print(
-                    self.get_message_handler(
-                        self.get_taskbar(), "Изменения сохранены!", "Changes saved!"
-                    )
-                )
+                self.get_message(self.get_taskbar(), print, "Изменения сохранены!", "Changes saved!")
                 self.get_enter_action("Нажмите действие для продолжения...", "Press to continue...")
                 return "[120, 30]"
             elif res.lower() == "полный" or res.lower() == "full" or res.lower() == "п" or res.lower() == "f":
                 press_and_release('alt+enter')
                 f"[{self.width()}, {self.height() - 1}]"
-                self.console_color.print(
-                    self.get_message_handler(
-                        self.get_taskbar(), "Изменения сохранены!", "Changes saved!"
-                    )
-                )
+                self.get_message(self.get_taskbar(), print, "Изменения сохранены!", "Changes saved!")
                 self.get_enter_action("Нажмите действие для продолжения...", "Press to continue...")
                 return press_and_release('alt+enter')
-            self.console_color.print(
-                self.get_message_handler(
-                    self.get_taskbar(), "Неверная команда!", "Wrong command!"
-                )
-            )
+            self.get_message(self.get_taskbar(), print, "Неверная команда!", "Wrong command!")
             self.get_enter_action("Нажмите действие для возврата...", "Press to return...")
             break
 
     def edit_weather_key(self):
         while True:
-            weather_key = self.console_color.input(
-                self.get_message_handler(
-                    self.get_taskbar(),
-                    "Введите ключ погоды (https://openweathermap.org/): ",
-                    "Enter weather key (https://openweathermap.org/): "
-                )
+            weather_key = self.get_message(
+                self.get_taskbar(), input,
+                "Введите ключ погоды (https://openweathermap.org/): ",
+                "Enter weather key (https://openweathermap.org/): "
             )
             if self.verify_void(
                     weather_key, self.get_taskbar(),
@@ -319,22 +243,16 @@ class Settings(Authentication, Widgets):
                     "Нажмите действие для возврата...", "Press to return..."
             ):
                 break
-            self.console_color.print(
-                self.get_message_handler(
-                    self.get_taskbar(), "Изменения сохранены!", "Changes saved!"
-                )
-            )
+            self.get_message(self.get_taskbar(), print, "Изменения сохранены!", "Changes saved!")
             self.get_enter_action("Нажмите действие для продолжения...", "Press to continue...")
             return weather_key
 
     def edit_transparency(self):
         while True:
-            transparency = self.console_color.input(
-                self.get_message_handler(
-                    self.get_taskbar(),
-                    "Уровень прозрачности терминала (1, 2, 3, 4, 5, 6): ",
-                    "Terminal transparency level (1, 2, 3, 4, 5, 6): "
-                )
+            transparency = self.get_message(
+                self.get_taskbar(), input,
+                "Уровень прозрачности терминала (1, 2, 3, 4, 5, 6): ",
+                "Terminal transparency level (1, 2, 3, 4, 5, 6): "
             )
             if self.verify_void(
                     transparency, self.get_taskbar(),
@@ -344,25 +262,13 @@ class Settings(Authentication, Widgets):
                 break
             try:
                 if 0 < int(transparency) < 7:
-                    self.console_color.print(
-                        self.get_message_handler(
-                            self.get_taskbar(), "Изменения сохранены!", "Changes saved!"
-                        )
-                    )
+                    self.get_message(self.get_taskbar(), print, "Изменения сохранены!", "Changes saved!")
                     self.get_enter_action("Нажмите действие для продолжения...", "Press to continue...")
                     return transparency
-                self.console_color.print(
-                    self.get_message_handler(
-                        self.get_taskbar(), "Неверная команда!", "Wrong command!"
-                    )
-                )
+                self.get_message(self.get_taskbar(), print, "Неверная команда!", "Wrong command!")
                 self.get_enter_action("Нажмите действие для возврата...", "Press to return...")
                 break
             except ValueError:
-                self.console_color.print(
-                    self.get_message_handler(
-                        self.get_taskbar(), "Неверная команда!", "Wrong command!"
-                    )
-                )
+                self.get_message(self.get_taskbar(), print, "Неверная команда!", "Wrong command!")
                 self.get_enter_action("Нажмите действие для возврата...", "Press to return...")
                 break

@@ -2,8 +2,8 @@ from time import sleep
 from colorama import Fore
 from getpass import getpass
 from bext import goto, hide
-from os import system as sys
 from rich.console import Console
+from os import system as sys, mkdir
 from pykeplib import PyKepLib, Descriptor
 
 
@@ -162,6 +162,7 @@ class Installation(PyKepLib):
                                                             "Установка завершена!",
                                                             "Installation is completed!"
                                                         )
+                                                        mkdir('Download')
                                                         sleep(1)
                                                         break
                                             break

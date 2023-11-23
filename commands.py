@@ -16,22 +16,14 @@ class Commands(
 ):
     def get_programs_commands(self):
         while True:
-            self.console_color.print(
-                self.get_message_handler(
-                    self.get_taskbar(), "Контакты, пароли, кнб", "Contacts, passwords, rps"
-                )
-            )
+            self.get_message(self.get_taskbar(), print, "Контакты, пароли, кнб", "Contacts, passwords, rps")
             cmd = self.get_enter_action("Введите действие: ", "Enter action: ")
             if cmd.lower() == '#':
                 pass
             elif cmd == '':
                 break
             else:
-                self.console_color.print(
-                    self.get_message_handler(
-                        self.get_taskbar(), "Неверная команда!", "Wrong command!"
-                    )
-                )
+                self.get_message(self.get_taskbar(), print, "Неверная команда!", "Wrong command!")
 
     def get_main_commands(self):
         cmd = self.get_enter_action("Введите действие: ", "Enter action: ")
@@ -66,16 +58,8 @@ class Commands(
             input()
             sleep(0.3)
         elif cmd == '':
-            self.console_color.print(
-                self.get_message_handler(
-                    self.get_taskbar(), "Вы ничего не ответили!", "You didn't answer!"
-                )
-            )
+            self.get_message(self.get_taskbar(), print, "Вы ничего не ответили!", "You didn't answer!")
             self.get_enter_action("Нажмите действие для возврата...", "Press to return...")
         else:
-            self.console_color.print(
-                self.get_message_handler(
-                    self.get_taskbar(), "Неверная команда!", "Wrong command!"
-                )
-            )
+            self.get_message(self.get_taskbar(), print, "Неверная команда!", "Wrong command!")
             self.get_enter_action("Нажмите действие для возврата...", "Press to return...")
