@@ -73,14 +73,21 @@ class YouTubeLoader(Widgets):
                 youtube.streams.get_highest_resolution().download('Download/')
                 self.get_message(
                     self.get_taskbar(), print,
-                    f"Автор: {youtube.author}\nОписание: {youtube.description}",
-                    f"Autor: {youtube.author}\nDescription: {youtube.description}"
+                    f"Автор: {youtube.author}",
+                    f"Autor: {youtube.author}"
+                )
+                self.get_coordinates(
+                    self.middle_width, self.middle_height + 1, self._middle_width, self.middle_height + 1
+                )
+                self.console_color.print(
+                    self.first_color + self.change_language(
+                        f"Описание: {youtube.description}", f"Description: {youtube.description}"
+                    )
                 )
                 self.get_enter_action(
                     "Загрузка завершена! Нажмите действие для возврата...",
                     " Download is done! Press to return..."
                 )
-
         except exceptions.RegexMatchError:
             self.get_message(self.get_taskbar(), print, "Битая ссылка...", "Broken link...")
             self.get_enter_action("Нажмите действие для возврата...", "Press to return...")
