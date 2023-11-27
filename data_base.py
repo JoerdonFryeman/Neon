@@ -1,9 +1,10 @@
 import sqlite3 as sq
+from settings import Settings
 from installation import Installation
 from pykeplib import Enigma, Descriptor
 
 
-class DataBase(Enigma, Installation):
+class DataBase(Enigma, Installation, Settings):
     name = Descriptor()
     city = Descriptor()
     login = Descriptor()
@@ -37,7 +38,7 @@ class DataBase(Enigma, Installation):
         self._note_file = note_file
 
     def add_db_value(self) -> None:
-        edit_data = self.get_installation()  # or self.settings()
+        edit_data = self.get_installation() or self.get_data_list()
         with sq.connect('system_data.db') as db:
             cur = db.cursor()
             cur.execute(

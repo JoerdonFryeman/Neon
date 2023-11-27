@@ -71,17 +71,12 @@ class YouTubeLoader(Widgets):
                     f"Идёт загрузка видео: {youtube.title}", f"The video is downloading: {youtube.title}"
                 )
                 youtube.streams.get_highest_resolution().download('Download/')
-                self.get_message(
-                    self.get_taskbar(), print,
-                    f"Автор: {youtube.author}",
-                    f"Autor: {youtube.author}"
-                )
                 self.get_coordinates(
                     self.middle_width, self.middle_height + 1, self._middle_width, self.middle_height + 1
                 )
                 self.console_color.print(
                     self.first_color + self.change_language(
-                        f"Описание: {youtube.description}", f"Description: {youtube.description}"
+                        f"Автор: {youtube.author}", f"Autor: {youtube.author}"
                     )
                 )
                 self.get_enter_action(

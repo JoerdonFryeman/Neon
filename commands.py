@@ -5,6 +5,7 @@ from os import system as sys, startfile
 from apps.clock import ClockWork
 from apps.images import Images
 from apps.notes import Notes
+from apps.neo import Neo
 from apps.youtube import YouTubeLoader
 from settings import Settings
 from widgets import Widgets
@@ -12,7 +13,7 @@ from matrix import Matrix
 
 
 class Commands(
-    Settings, ClockWork, Images, Notes, YouTubeLoader, Widgets, Matrix
+    Settings, ClockWork, Images, Notes, YouTubeLoader, Widgets, Matrix, Neo
 ):
     def get_programs_commands(self):
         while True:
@@ -44,6 +45,8 @@ class Commands(
             self.download_video()
         elif cmd.lower() == 'программы' or cmd.lower() == 'п' or cmd.lower() == 'programs' or cmd.lower() == 'p':
             self.get_programs_commands()
+        elif cmd.lower() == 'нео' or cmd.lower() == 'н' or cmd.lower() == 'neo' or cmd.lower() == 'n':
+            self.run_text()
         elif cmd.lower() == 'матрица' or cmd.lower() == 'matrix' or cmd.lower() == 'м' or cmd.lower() == 'm':
             sys(self.get_system_command())
             Thread(target=Matrix().run_function).start()
