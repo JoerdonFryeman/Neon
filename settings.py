@@ -29,6 +29,7 @@ class Settings(Authentication, Widgets):
                     self.edit_city()
                     break
                 if cmd.lower() == 'логин' or cmd.lower() == 'login' or cmd.lower() == 'л' or cmd.lower() == 'l':
+                    self.get_authentication()
                     self.edit_login()
                     break
                 if cmd.lower() == 'пароль' or cmd.lower() == 'password' or cmd.lower() == 'п' or cmd.lower() == 'p':
@@ -77,6 +78,7 @@ class Settings(Authentication, Widgets):
             self.get_message(self.get_taskbar(), print, "Изменения сохранены!", "Changes saved!")
             self.get_enter_action("Нажмите действие для продолжения...", "Press to continue...")
             self.get_data_list(name)
+            break
 
     def edit_city(self):
         while True:
@@ -98,31 +100,33 @@ class Settings(Authentication, Widgets):
             self.get_message(self.get_taskbar(), print, "Изменения сохранены!", "Changes saved!")
             self.get_enter_action("Нажмите действие для продолжения...", "Press to continue...")
             self.get_data_list(city)
+            break
 
     def edit_login(self):
         while True:
-            login = self.get_message(self.get_taskbar(), input, "Придумайте логин: ", "Create a login: ")
+            login = self.get_message(sys(self.get_system_command()), input, "Придумайте логин: ", "Create a login: ")
             if self.verify_void(
-                    login, self.get_taskbar(),
+                    login, sys(self.get_system_command()),
                     "Вы ничего не ответили!", "You didn't answer!",
                     "Нажмите действие для возврата...", "Press to return..."
             ):
                 break
             if self.verify_length(
-                    login, self.get_taskbar(), 2, 15,
+                    login, sys(self.get_system_command()), 2, 15,
                     "Логин не может быть меньше 2-х или больше 15-ти символов!",
                     "Login must not be less than 2 or more than 15 letters!",
                     "Нажмите ввод для продолжения...", "Press to continue..."
             ):
                 break
-            self.get_message(self.get_taskbar(), print, "Изменения сохранены!", "Changes saved!")
+            self.get_message(sys(self.get_system_command()), print, "Изменения сохранены!", "Changes saved!")
             self.get_enter_action("Нажмите действие для продолжения...", "Press to continue...")
             self.get_data_list(login)
+            break
 
     def edit_password(self):
         while True:
             self.get_message(
-                self.get_taskbar(), print,
+                sys(self.get_system_command()), print,
                 "Введите новый пароль (ввод не отображается...)", "Enter the new password (input not displayed...)"
             )
             new_password = getpass('')
@@ -140,7 +144,7 @@ class Settings(Authentication, Widgets):
             ):
                 break
             self.get_message(
-                self.get_taskbar(), print,
+                sys(self.get_system_command()), print,
                 "Повторите пароль (ввод не отображается...)", "Repeat the password (input not displayed...)"
             )
             new_password_retry = getpass('')
@@ -150,7 +154,10 @@ class Settings(Authentication, Widgets):
                     "Подтверждение не совпадает с паролем!", "Confirmation does not match the password!"
                 )
                 break
+            self.get_message(sys(self.get_system_command()), print, "Изменения сохранены!", "Changes saved!")
+            self.get_enter_action("Нажмите действие для продолжения...", "Press to continue...")
             self.get_data_list(new_password)
+            break
 
     def edit_language(self):
         while True:
@@ -168,6 +175,7 @@ class Settings(Authentication, Widgets):
                 self.get_message(self.get_taskbar(), print, "Изменения сохранены!", "Changes saved!")
                 self.get_enter_action("Нажмите действие для продолжения...", "Press to continue...")
                 self.get_data_list(language)
+                break
             self.get_message(
                 self.get_taskbar(), input,
                 "Введите название языка буквами — русский или английский...",
@@ -190,6 +198,7 @@ class Settings(Authentication, Widgets):
             self.get_message(self.get_taskbar(), print, "Изменения сохранены!", "Changes saved!")
             self.get_enter_action("Нажмите действие для продолжения...", "Press to continue...")
             self.get_data_list(weather_key)
+            break
 
     def edit_window_mode(self):
         while True:
@@ -207,6 +216,7 @@ class Settings(Authentication, Widgets):
                 self.get_message(self.get_taskbar(), print, "Изменения сохранены!", "Changes saved!")
                 self.get_enter_action("Нажмите действие для продолжения...", "Press to continue...")
                 press_and_release('alt+enter')
+                break
             self.get_message(self.get_taskbar(), print, "Неверная команда!", "Wrong command!")
             self.get_enter_action("Нажмите действие для возврата...", "Press to return...")
             break
@@ -247,6 +257,7 @@ class Settings(Authentication, Widgets):
                     self.get_message(self.get_taskbar(), print, "Изменения сохранены!", "Changes saved!")
                     self.get_enter_action("Нажмите действие для продолжения...", "Press to continue...")
                     self.get_data_list(color_list)
+                    break
             self.get_message(self.get_taskbar(), print, "Неверная команда!", "Wrong command!")
             self.get_enter_action("Нажмите действие для возврата...", "Press to return...")
             break
@@ -269,6 +280,7 @@ class Settings(Authentication, Widgets):
                     self.get_message(self.get_taskbar(), print, "Изменения сохранены!", "Changes saved!")
                     self.get_enter_action("Нажмите действие для продолжения...", "Press to continue...")
                     self.get_data_list(transparency)
+                    break
                 self.get_message(self.get_taskbar(), print, "Неверная команда!", "Wrong command!")
                 self.get_enter_action("Нажмите действие для возврата...", "Press to return...")
                 break
