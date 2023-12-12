@@ -1,7 +1,7 @@
 from time import sleep
 from colorama import Fore
 from getpass import getpass
-from bext import goto, hide
+from bext import goto, hide_cursor
 from rich.console import Console
 from os import system as sys, mkdir
 from pykeplib import PyKepLib, Descriptor
@@ -19,7 +19,7 @@ class Installation(PyKepLib):
     )
 
     def __init__(self):
-        self.get_hide = hide()
+        self.get_hide = hide_cursor()
         self.get_green = Fore.GREEN
         self.console_color = Console()
         self._install_width = 24
